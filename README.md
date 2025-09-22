@@ -6,110 +6,124 @@ English | [日本語](README.ja.md)
 [![GitHub license](https://img.shields.io/github/license/otoyo/astro-notion-blog)](https://github.com/otoyo/astro-notion-blog/blob/main/LICENSE)
 [![GitHub sponsors](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/otoyo)
 
-<img src="https://user-images.githubusercontent.com/1063435/213838069-c9654c32-ec9b-4e82-a3b5-2acbd665b16a.png" width="480">
+<img src="https://user-images.githubusercontent.com/1063435/213838069-c9654c32-ec9b-4e82-a3b5-2acbd665b16a.png" width="480" alt="astro-notion-blog screenshot" />
 
-astro-notion-blog enables you to create a blog using [Notion](https://www.notion.so/) and generates it statically, resulting in lightning-fast page views.
+astro-notion-blog is a statically generated blog starter powered by [Astro](https://astro.build/) and [Notion](https://www.notion.so/).
+It reads your content directly from a Notion database through the official Notion APIs and deploys seamlessly to Cloudflare Pages.
 
-- :rocket: **Blazing fast** page views
-- :pencil: With the ability to write blog content in **Notion**
-- :hammer_and_wrench: **Customize** your site's appearance to your liking
-- :white_check_mark: Take advantage of **the official Notion APIs**
+## ✨ Features
 
-## :camera_flash: Screenshots
+- ⚡️ **Blazing fast** static pages built with Astro and served from Cloudflare's global edge
+- 📝 **Write posts in Notion** using the provided database template
+- 🧩 **Customisable UI** with flexible components, layouts and styles in the `src/` directory
+- ✅ **Official Notion API** integration, including caching utilities for reliable builds
+- 🛠️ **Developer-friendly tooling** (ESLint, Prettier and Nx-powered Notion cache helpers)
 
-### PC
+## 🌐 Demo
 
-<img src="https://github.com/otoyo/astro-notion-blog/assets/1063435/967bbc23-014c-427d-b6cd-02c41822fb45" width="600">
+Visit [astro-notion-blog.pages.dev](https://astro-notion-blog.pages.dev) to see the latest demo deployment.
+
+## 📸 Screenshots
+
+### Desktop
+
+<img src="https://github.com/otoyo/astro-notion-blog/assets/1063435/967bbc23-014c-427d-b6cd-02c41822fb45" width="600" alt="Desktop screenshot" />
 
 ### Smartphone
 
-<img src="https://github.com/otoyo/astro-notion-blog/assets/1063435/bf1add06-1f1c-42ca-88c9-decb8c0dcf8f" width="300">
+<img src="https://github.com/otoyo/astro-notion-blog/assets/1063435/bf1add06-1f1c-42ca-88c9-decb8c0dcf8f" width="300" alt="Mobile screenshot" />
 
-## :globe_with_meridians: Demo
+## 🚀 Getting started
 
-[https://astro-notion-blog.pages.dev](https://astro-notion-blog.pages.dev)
+### Prerequisites
 
-## :motor_scooter: Quick Start
+- A Notion workspace where you can duplicate databases
+- A Cloudflare account with access to [Cloudflare Pages](https://pages.cloudflare.com/)
+- Node.js **v18.16.0 or higher** and Git if you want to develop locally
 
-### Requirements
+### Prepare your Notion database
 
-- [Notion](https://www.notion.so/)
-- [Cloudflare Pages](https://pages.cloudflare.com/)
-- Git
+1. Give this repository a ⭐️&nbsp;star if you find it useful – it helps a lot!
+2. Duplicate the [blog template](https://otoyo.notion.site/e2c5fa2e8660452988d6137ba57fd974?v=abe305cd8b3d467285e91a2a85f4d8de) into your workspace.
+3. Update the icon, title and description of the duplicated database to match your blog.
+4. Copy the value of `DATABASE_ID` from the duplicated database URL (`https://notion.so/your-account/<DATABASE_ID>?v=xxxx`).
+5. [Create a Notion integration](https://developers.notion.com/docs/create-a-notion-integration#step-1-create-an-integration) and note the **Internal Integration Token** as `NOTION_API_SECRET`.
+6. Share the duplicated database with your integration so it can read the content.
 
-### Steps
+### Deploy to Cloudflare Pages
 
-1. If you enjoy using this repo, **don't forget to give it a star!** :wink:
-   - This is very motivating!
-2. Simply duplicate [the blog template](https://otoyo.notion.site/e2c5fa2e8660452988d6137ba57fd974?v=abe305cd8b3d467285e91a2a85f4d8de) into your Notion workspace.
-3. Once you've duplicated the page (database), customize it to your liking by changing the icon, title, and description.
+1. Fork this repository into your own GitHub account.
+2. In Cloudflare Pages, create a new project and connect it to `<your-account>/astro-notion-blog`.
+3. In the build settings choose the **Astro** framework preset.
+4. Add the following environment variables under **Environment Variables (advanced)**:
 
-<img src="https://user-images.githubusercontent.com/1063435/223611374-86d7172c-9cda-477b-b8a3-dc724fa7ccf4.png" width="600">
+   | Key | Value |
+   | --- | --- |
+   | `NODE_VERSION` | `v18.16.0` or higher |
+   | `NOTION_API_SECRET` | Internal Integration Token from Notion |
+   | `DATABASE_ID` | Database ID copied from your Notion URL |
+   | `CACHE_CONCURRENCY` (optional) | Number of concurrent fetches when warming the cache |
 
-4. For future reference, identify the `DATABASE_ID` by noting the portion of the duplicated page (database) URL that appears as https://notion.so/your-account/<HERE>?v=xxxx.
+5. Leave the default build command (`npm run build:cached`) and output directory (`dist`).
+6. Click **Save and Deploy**. Your site will be published when the build completes.
 
-<img src="https://user-images.githubusercontent.com/1063435/213966685-3a2afed2-45c0-4ea5-8070-e634d8d648de.png" width="260">
+> **Note**
+> Notion content changes require a redeploy. Trigger a manual build from the Cloudflare Pages dashboard or schedule deployments via CI (e.g. GitHub Actions).
 
-<img src="https://user-images.githubusercontent.com/1063435/213966888-c3f1f741-62ac-42f3-9af2-94ab375b5676.png" width="600">
+## 🧑‍💻 Local development
 
-5. [Create an integration](https://developers.notion.com/docs/create-a-notion-integration#step-1-create-an-integration) and note "Internal Integration Token" as `NOTION_API_SECRET`
-6. To integrate your application with Notion, [share a database with your integration](https://developers.notion.com/docs/create-a-notion-integration#step-2-share-a-database-with-your-integration).
-7. To make a copy of this repository in your own account, fork it by clicking on the 'Fork' button in the top-right corner of the repository page.
-8. Go to [Cloudflare Pages](https://pages.cloudflare.com/) and sign in
-9. Create new project with "Connect to Git" with your forked repository `<your-account>/astro-notion-blog`, then click "Begin setup"
-10. In "Build settings" section,
-    1. Select "Astro" as "Framework preset"
-    2. Open "Environment Variables (advanced)" and set `NODE_VERSION`, `NOTION_API_SECRET` and `DATABASE_ID`
-       - `NODE_VERSION` is `v18.16.0` or higher
-       - [How to deploy a site with Git](https://docs.astro.build/en/guides/deploy/cloudflare/#how-to-deploy-a-site-with-git) is helpful
+1. Export your Notion secrets locally:
 
-<img src="https://user-images.githubusercontent.com/1063435/213967061-06f488fe-0b42-40a5-8f19-ac441f0168ff.png" width="400">
+   ```bash
+   export NOTION_API_SECRET=<YOUR_NOTION_API_SECRET>
+   export DATABASE_ID=<YOUR_DATABASE_ID>
+   # Optional: tune cache concurrency when warming the cache
+   export CACHE_CONCURRENCY=4
+   ```
 
-<img src="https://github.com/otoyo/astro-notion-blog/assets/1063435/bc1ceef1-d67a-490b-b465-34af1b0f8010" width="600">
+2. Install dependencies and start the dev server:
 
-11. After clicking the 'Save and Deploy' button, your Notion Blog will be published once the deployment process is complete.
+   ```bash
+   npm install
+   npm run dev
+   ```
 
-Please note that the astro-notion-blog requires manual deployment every time you publish a new post or make updates. You can deploy manually from the Cloudflare Pages dashboard or set up a scheduled deploy using CI tools such as GitHub Actions.
+3. Open [http://localhost:4321](http://localhost:4321) to preview your blog. Stop the server with `Ctrl+C`.
 
-## :hammer_and_pick: How to customize
+### Helpful scripts
 
-### Additional requirements
+| Command | Description |
+| ------- | ----------- |
+| `npm run build` | Generate a production build in `dist/`. |
+| `npm run build:cached` | Warm the Notion cache before building (used in Cloudflare Pages). |
+| `npm run cache:fetch` | Cache Notion page content locally using Nx to speed up repeated builds. |
+| `npm run cache:purge` | Clear cached Notion responses (`nx reset` + remove `tmp/*`). |
+| `npm run lint` | Run ESLint against the `src/` directory. |
+| `npm run preview` | Preview the production build locally. |
 
-- Node.js v18.14.1 or higher
+## 🎨 Customisation guide
 
-### Steps
+The project follows Astro's standard structure:
 
-1. To set your secrets as environment variables, run the following commands in your terminal:
+- `src/pages/` – top-level pages such as the home page and RSS feeds
+- `src/components/` – reusable UI components (navigation, cards, headers, etc.)
+- `src/layouts/` – page layouts shared across templates
+- `src/styles/` – global and component-level stylesheets
+- `src/lib/` – Notion helpers, data fetching utilities and constants
+- `public/` – static assets served as-is
 
-```sh
-export NOTION_API_SECRET=<YOUR_NOTION_API_SECRET>
-export DATABASE_ID=<YOUR_DATABASE_ID>
-```
+Feel free to tailor colours, typography, metadata and components to match your brand.
+If you add new content types in Notion, extend the data utilities in `src/lib/` and corresponding components to render them.
 
-2. Install dependencies and start local server
+## 🐞 Support & contributions
 
-```sh
-npm install
-npm run dev
-```
+- Found a bug or have a feature request? [Open an issue](https://github.com/otoyo/astro-notion-blog/issues). English and Japanese are both welcome.
+- Contributions are encouraged! Fork the repo, create a feature branch and open a pull request describing your changes.
 
-3. Open [http://localhost:4321](http://localhost:4321) in your browser
-4. Press `Ctrl+C` in the terminal to stop
+## ❤️ Sponsorship
 
-### For more information
-
-See [wiki](https://github.com/otoyo/astro-notion-blog/wiki).
-
-## :lady_beetle: Bug reports & feature requests
-
-To report an issue, please create a new Issue. You can use **either English or Japanese** to describe the issue. :wink:
-
-## :two_hearts: Sponsorship
-
-If you like astro-notion-blog, sponsor me so that I can keep on developing software. Thank you.
-
-[![GitHub sponsors](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/otoyo)
+If astro-notion-blog helps you build a great blog, please consider supporting the project through [GitHub Sponsors](https://github.com/sponsors/otoyo).
 
 ---
 
-astro-notion-blog is based [otoyo/notion-blog](https://github.com/otoyo/notion-blog)
+astro-notion-blog is based on [otoyo/notion-blog](https://github.com/otoyo/notion-blog).
