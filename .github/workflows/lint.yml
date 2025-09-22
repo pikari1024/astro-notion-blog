@@ -12,13 +12,41 @@ jobs:
   lint:
     name: ESLint
     runs-on: ubuntu-latest
+    env:
+      NPM_REGISTRY_URL: ${{ vars.NPM_REGISTRY_URL != '' && vars.NPM_REGISTRY_URL || 'https://registry.npmjs.org/' }}
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: ${{ env.NPM_REGISTRY_URL }}
+
+      - name: Inspect npm configuration
+        run: |
+          echo "== npm config list -l =="
+          npm config list -l
+          echo "== cat project .npmrc =="
+          [ -f .npmrc ] && cat .npmrc || echo "(no project .npmrc)"
+          echo "== cat HOME .npmrc =="
+          [ -f "$HOME/.npmrc" ] && cat "$HOME/.npmrc" || echo "(no home .npmrc)"
+
+      - name: Synchronize npm registry configuration
+        run: |
+          npm config set registry "$NPM_REGISTRY_URL"
+          if [ -n "$NPM_TOKEN" ]; then
+            REGISTRY_HOST=$(node -p "new URL(process.env.NPM_REGISTRY_URL).host")
+            npm config set "//${REGISTRY_HOST}/:_authToken" "$NPM_TOKEN"
+            npm config set always-auth true
+          fi
+
       - name: Install packages
-        run: npm install
+        run: npm ci
 
       - name: Run lint
         run: npm run lint

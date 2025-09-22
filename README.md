@@ -91,10 +91,15 @@ export DATABASE_ID=<YOUR_DATABASE_ID>
 ```sh
 npm install
 npm run dev
-```
+ ```
 
 3. Open [http://localhost:4321](http://localhost:4321) in your browser
 4. Press `Ctrl+C` in the terminal to stop
+
+### npm registry and authentication
+
+- The repository ships with a `.npmrc` that points to the public npm registry by default. Update the file if your organisation requires a private mirror.
+- In CI (GitHub Actions), set `NPM_REGISTRY_URL` and, when required, `NPM_TOKEN`. The workflow copies the token to `NODE_AUTH_TOKEN` so that `actions/setup-node` can authenticate against the configured registry before `npm ci` runs.
 
 ### For more information
 

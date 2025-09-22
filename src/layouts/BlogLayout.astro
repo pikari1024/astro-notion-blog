@@ -5,6 +5,7 @@ import PostDate from '../components/PostDate.astro'
 import PostTags from '../components/PostTags.astro'
 import PostTitle from '../components/PostTitle.astro'
 import PostFeaturedImage from '../components/PostFeaturedImage.astro'
+import PostExcerpt from '../components/PostExcerpt.astro'
 import Pagination from '../components/Pagination.astro'
 import BlogPostsLink from '../components/BlogPostsLink.astro'
 import BlogTagsLink from '../components/BlogTagsLink.astro'
@@ -43,6 +44,7 @@ const {
                                         </div>
                                     </div>
                                     <PostTitle post={post} />
+                                    <PostExcerpt post={post} />
                                 </div>
                             </div>
                         </div>

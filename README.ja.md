@@ -100,6 +100,12 @@ npm install
 npm run dev
 ```
 
+### npm レジストリと認証の設定
+
+- このリポジトリには、デフォルトで npmjs のパブリックレジストリを参照する `.npmrc` を同梱しています。社内ミラーや独自レジストリを利用する場合は、このファイルの `registry` や `always-auth` を適切な値に書き換えてください。
+- CI（GitHub Actions）では `NPM_REGISTRY_URL`（および必要に応じて `NPM_TOKEN`）を設定することで、レジストリや認証情報を切り替えられるようにしています。Secrets/Variables に登録した `NPM_TOKEN` はワークフロー内で `NODE_AUTH_TOKEN` にもコピーされ、`actions/setup-node` が利用します。
+- Cloudflare Pages やその他のホスティング環境でも同様に、`.npmrc` と環境変数を整合させることで 403 Forbidden を回避できます。ビルド環境がプロキシ経由の場合は `HTTPS_PROXY`/`NO_PROXY` 等も忘れずに設定してください。
+
 3. ブラウザで [http://localhost:4321](http://localhost:4321) を開きます
 4. 開発サーバーを停止するにはターミナルで `Ctrl+C` を押します。
 
