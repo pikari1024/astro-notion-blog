@@ -16,6 +16,22 @@ if (block.Image.External) {
 } else if (block.Image.File) {
   image = filePath(new URL(block.Image.File.Url))
 }
+
+let imageLink: string | undefined
+if (block.Image.Caption) {
+  for (const richText of block.Image.Caption) {
+    if (richText.Href) {
+      imageLink = richText.Href
+      break
+    }
+    if (richText.Text && richText.Text.Link) {
+      imageLink = richText.Text.Link.Url
+      break
+    }
+  }
+}
+
+const shouldUseLightbox = ENABLE_LIGHTBOX && !imageLink
 ---
 
 <figure class="image">
@@ -23,8 +39,12 @@ if (block.Image.External) {
     image && (
       <div>
         <div>
-          {ENABLE_LIGHTBOX ? (
+          {shouldUseLightbox ? (
             <a data-fslightbox href={image} data-type="image">
+              <img src={image} alt="Image in a image block" loading="lazy" />
+            </a>
+          ) : imageLink ? (
+            <a href={imageLink} target="_blank" rel="noreferrer noopener">
               <img src={image} alt="Image in a image block" loading="lazy" />
             </a>
           ) : (

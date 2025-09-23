@@ -1,5 +1,6 @@
 ---
 import { RichText } from '../../lib/interfaces.ts'
+import RichTextComponent from './RichText.astro'
 
 export interface Props {
   richTexts: RichText[]
@@ -9,9 +10,13 @@ const { richTexts } = Astro.props
 ---
 
 {
-  richTexts.length > 0 && richTexts[0].Text.Content && (
+  richTexts.length > 0 && (
     <div class="caption">
-      <div>{richTexts[0].Text.Content}</div>
+      <div>
+        {richTexts.map((richText) => (
+          <RichTextComponent richText={richText} />
+        ))}
+      </div>
     </div>
   )
 }
