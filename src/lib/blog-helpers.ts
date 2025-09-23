@@ -162,9 +162,9 @@ export const getDateStr = (date: string) => {
   }
 
   const y = dt.getFullYear()
-  const m = ('00' + (dt.getMonth() + 1)).slice(-2)
-  const d = ('00' + dt.getDate()).slice(-2)
-  return y + '-' + m + '-' + d
+  const m = dt.getMonth() + 1
+  const d = dt.getDate()
+  return `${y}年${m}月${d}日`
 }
 
 export const buildHeadingId = (heading: Heading1 | Heading2 | Heading3) => {
