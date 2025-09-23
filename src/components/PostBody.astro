@@ -17,4 +17,15 @@ const { blocks } = Astro.props
   .post-body {
     padding: 0.5rem 0;
   }
+
+  .post-body img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .post-body iframe,
+  .post-body object,
+  .post-body embed {
+    max-width: 100%;
+  }
 </style>
