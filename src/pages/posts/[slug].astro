@@ -19,7 +19,6 @@ import {
 import Layout from '../../layouts/Layout.astro'
 import PostDate from '../../components/PostDate.astro'
 import PostTags from '../../components/PostTags.astro'
-import PostTitle from '../../components/PostTitle.astro'
 import PostBody from '../../components/PostBody.astro'
 import PostRelativeLink from '../../components/PostRelativeLink.astro'
 import BlogPostsLink from '../../components/BlogPostsLink.astro'
@@ -101,25 +100,13 @@ if (post.FeaturedImage && post.FeaturedImage.Url) {
 >
 <div slot="main" class={styles.main}>
   <div class={styles.post}>
-    {
-      post.FeaturedImage && post.FeaturedImage.Url && (
-        <div class={styles.featuredImage}>
-          <img
-            src={import.meta.env.DEV ? post.FeaturedImage.Url : filePath(new URL(post.FeaturedImage.Url))}
-            alt={post.Title}
-            loading="eager"
-            style="max-width: 100%; height: auto;"
-          />
-        </div>
-      )
-    }
+    <h1 class={styles.postTitle}>{post.Title}</h1>
 <div class={styles.postMeta}>
   <div class={styles.postMetaInner}>
     <PostDate post={post} />
     <PostTags post={post} />
   </div>
 </div>
-    <!-- <PostTitle post={post} enableLink={false} /> -->
     <PostBody blocks={blocks} />
 
       <footer>
