@@ -30,6 +30,13 @@
   flex-direction: row; /* PC表示で左右に表示 */
 }
 
+.postTitle {
+  margin: 0 0 1rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--fg);
+}
+
 .featuredImage {
   max-width: 100%;
   overflow: hidden;
@@ -59,5 +66,9 @@
     flex-direction: column; /* モバイル表示で上下に表示 */
 
     align-items: flex-start; /* 左詰めで表示 */
+  }
+
+  .postTitle {
+    font-size: 1.5rem;
   }
 }
