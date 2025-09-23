@@ -18,14 +18,14 @@ const { blocks } = Astro.props
     padding: 0.5rem 0;
   }
 
-  .post-body img {
+  .post-body :global(img) {
     max-width: 100%;
     height: auto;
   }
 
-  .post-body iframe,
-  .post-body object,
-  .post-body embed {
+  .post-body :global(iframe),
+  .post-body :global(object),
+  .post-body :global(embed) {
     max-width: 100%;
   }
 </style>
