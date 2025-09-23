@@ -19,6 +19,7 @@ const {
     numberOfPages,
     currentPage,
     tag,
+    showFeaturedImage = true,
 } = Astro.props
 ---
 
@@ -34,7 +35,7 @@ const {
                     posts.map((post) => (
                         <div class={styles.post} key={post.Slug}>
                             <div class={styles.postContent}>
-                                <PostFeaturedImage post={post} />
+                                {showFeaturedImage && <PostFeaturedImage post={post} />}
                                 <div class={styles.postInfo}>
                                     <div class={styles.postMeta}>
                                         <div class={styles.postMetaInner}>
