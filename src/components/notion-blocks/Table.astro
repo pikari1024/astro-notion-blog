@@ -45,12 +45,24 @@ const { block } = Astro.props
 
 <style>
   .table {
+    overflow-x: auto;
   }
   .table table {
     margin: 0.6rem 0;
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 320px;
   }
   .table th,
   .table td {
     font-weight: normal;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--card-border, #d9d9d9);
+    vertical-align: top;
+  }
+  .table th {
+    background-color: var(--card-bg, #f7f7f7);
+    font-weight: 600;
+    text-align: left;
   }
 </style>
