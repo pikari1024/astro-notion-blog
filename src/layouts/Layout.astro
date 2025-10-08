@@ -25,7 +25,7 @@ const siteURL = new URL(getNavLink(path), Astro.site).toString()
 const siteOGImage = new URL(
   getStaticFilePath('/og_image.png'),
   Astro.site
-)
+).toString()
 
 let coverImageURL: string
 if (database.Cover) {
