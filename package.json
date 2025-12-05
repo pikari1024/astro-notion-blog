@@ -22,7 +22,7 @@
     "@iconify-json/octicon": "^1.2.19",
     "@notionhq/client": "^2.2.15",
     "@supercharge/promise-pool": "^2.4.0",
-    "astro-icon": "^1.1.5",
+    "astro-icon": "^4.0.0",
     "async-retry": "^1.3.3",
     "axios": "^1.4.0",
     "exif-be-gone": "^1.3.2",
