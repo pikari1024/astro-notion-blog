@@ -1,8 +1,13 @@
 ---
-import { Icon } from 'astro-icon/components'
 ---
 
-<button class="search-button open-search-modal" type="button"><Icon name="octicon:search-24" /><span>Search</span></button>
+<button class="search-button open-search-modal" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
+    <circle cx="11" cy="11" r="8"></circle>
+    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+  </svg>
+  <span>Search</span>
+</button>
 
 <style>
   .search-button {
@@ -25,8 +30,6 @@ import { Icon } from 'astro-icon/components'
     width: 20px;
     height: 20px;
     margin-right: 0.2rem;
-  }
-  [astro-icon="octicon:search-24"] {
     color: var(--fg);
   }
 </style>
