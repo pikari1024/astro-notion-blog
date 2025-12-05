@@ -19,6 +19,7 @@
   "dependencies": {
     "@astrojs/react": "^4.4.2",
     "@astrojs/rss": "^4.0.14",
+    "@iconify-json/octicon": "^1.2.19",
     "@notionhq/client": "^2.2.15",
     "@supercharge/promise-pool": "^2.4.0",
     "astro-icon": "^1.1.5",
