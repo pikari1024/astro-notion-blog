@@ -76,10 +76,17 @@ const getAllPages = async () => {
     }
   }
 
+  const CACHE_VERSION = 1;
   const concurrency = parseInt(process.env.CACHE_CONCURRENCY || '10', 10);
 
   let processedCount = 0;
   let skippedCount = 0;
+
+  // Invalidate cache if version mismatch
+  if (cacheMeta.version !== CACHE_VERSION) {
+    console.log(`Cache version mismatch (Current: ${CACHE_VERSION}, Meta: ${cacheMeta.version}). Clearing cache metadata.`);
+    cacheMeta = { version: CACHE_VERSION };
+  }
 
   await PromisePool.withConcurrency(concurrency)
     .for(pages)
