@@ -52,7 +52,7 @@ const retrieveAndWriteBlockChildren = async (blockId) => {
       block.synced_block.synced_from.block_id
     ) {
       try {
-        await retrieveAndWriteBlock(block.synced_block.synced_from.block_id);
+        await retrieveAndWriteBlockChildren(block.synced_block.synced_from.block_id);
       } catch (err) {
         console.log(
           `Could not retrieve the original synced_block. error: ${err}`
