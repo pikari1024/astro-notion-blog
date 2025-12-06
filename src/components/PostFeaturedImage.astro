@@ -2,7 +2,7 @@
 import { Post } from '../lib/interfaces.ts'
 import { filePath } from '../lib/blog-helpers'
 import { getPostLink } from '../lib/blog-helpers' 
-// この行を追加
+
 export interface Props {
   post: Post
 }
@@ -26,6 +26,19 @@ if (post.FeaturedImage && post.FeaturedImage.Url) {
         <img src={image} alt="Featured image of the post" />
       </a>
     </div>
+  )
+}
+
+<style>
+  .post-featured-image {
+    padding: 0.6rem 0 0.2rem;
+    float: left; /* 画像を左に浮かせる */
+    margin-right: 1rem; /* タイトルとの間にスペースを作る */
+    max-width: 30%; /* 画像の幅を調整 */
+  }
+  .post-featured-image img {
+    display: block;
+    max-width: 100%;
     height: auto;
     object-fit: cover; /* 画像がコンテナに合わせてトリミングされるように設定 */
     border-radius: 10px; /* 角を丸くする */

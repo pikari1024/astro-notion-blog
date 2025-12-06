@@ -46,41 +46,39 @@ const { prevPost, nextPost } = Astro.props
 </div>
 
 <style>
-
-.post-label {
-    color: #007dfa; /* 青色の例 */
+  .post-label {
+    color: #007dfa;
     font-weight: bold;
   }
 
-  .colored-right{
-    align-items:flex-start;
+  .colored-right {
+    align-items: flex-start;
   }
 
   .colored-left,
-  .colored-right { 
-    border-radius: 1.9rem; /* 四隅を丸くする */
+  .colored-right {
+    border-radius: 1.9rem;
   }
 
   .colored-left:hover,
-  .colored-right:hover { 
+  .colored-right:hover {
     background-color: #dbebf8;
-    border-radius: 1.9rem; /* 四隅を丸くする */ 
+    border-radius: 1.9rem;
   }
-  
-  /* 親要素に対して相対配置を設定 */
+
   :global(.post-relative-link) {
     position: relative;
   }
+
   div.post-relative-link {
     width: 100%;
-    margin-top: 0; /* マージンをリセット */
+    margin-top: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
 
-  /* リンクコンテナのスタイル */
   .links-container {
     width: 100%;
     display: flex;
@@ -92,15 +90,13 @@ const { prevPost, nextPost } = Astro.props
     padding: 20px 0;
   }
 
-  /* リンク要素のスタイル */
   .links-container > a {
     flex: 1;
     max-width: calc(50% - 0.5rem);
     display: flex;
-    align-items: center; /* 垂直方向の中央揃え */
+    align-items: center;
   }
 
-  /* TOPリンクのスタイル */
   .top-link {
     width: 70px;
     display: flex;
@@ -110,22 +106,19 @@ const { prevPost, nextPost } = Astro.props
     background: rgb(192, 217, 255);
     margin-left: auto;
     margin-right: auto;
-    border-radius: 1.9rem; /* 四隅を丸くする */
+    border-radius: 1.9rem;
     font-weight: bold;
   }
 
-  /* 左向き矢印のスタイル */
   .arrow-left {
-    border-top: 16px solid transparent; /* サイズを小さく */
-    border-bottom: 16px solid transparent; /* サイズを小さく */
-    border-left: 16px solid #97d0ff; /* 幅を少し狭く */
+    border-top: 16px solid transparent;
+    border-bottom: 16px solid transparent;
+    border-left: 16px solid #97d0ff;
     margin-left: 10px;
     transform: scaleY(1.5);
     padding: 0 5px;
-    /* align-self: flex-end; */
   }
 
-  /* 右向き矢印のスタイル */
   .arrow-right {
     border-top: 16px solid transparent;
     border-bottom: 16px solid transparent;
@@ -135,9 +128,6 @@ const { prevPost, nextPost } = Astro.props
     padding: 0 5px;
   }
 
-
-
-  /* 次の記事のコンテンツスタイル修正 */
   .next-post-content {
     text-align: left;
     margin-left: 10px;
@@ -145,23 +135,21 @@ const { prevPost, nextPost } = Astro.props
     flex-direction: column;
     align-items: flex-start;
   }
-    /* 次の記事のコンテナスタイルを修正 */
-    .links-container > a:has(.arrow-left) {
-    justify-content: flex-end; /* 子要素を右詰めに配置 */
+
+  .links-container > a:has(.arrow-left) {
+    justify-content: flex-end;
   }
 
-  /* 前の記事のコンテンツスタイル修正 */
   .prev-post-content {
     text-align: left;
     margin-right: 10px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    justify-content: flex-start; // この行を追加
+    justify-content: flex-start; /* 調整 */
   }
 
-    /* タグのスタイル調整 */
-    .next-post-content :global(.post-tags),
+  .next-post-content :global(.post-tags),
   .prev-post-content :global(.post-tags) {
     display: flex;
     flex-wrap: wrap;
@@ -169,23 +157,21 @@ const { prevPost, nextPost } = Astro.props
   }
 
   .next-post-content :global(.post-tags) {
-    justify-content: flex-start; /* 次の記事のタグを左詰めに */
+    justify-content: flex-start;
   }
 
   .prev-post-content :global(.post-tags) {
-    justify-content: flex-end; /* 前の記事のタグを右詰めに */
+    justify-content: flex-end;
   }
 
-    /* 前の記事のリンクコンテナスタイルを追加 */
-    .links-container > a:has(.arrow-left) {
-    justify-content: flex-start; /* 子要素を左詰めに配置 */
+  .links-container > a:has(.arrow-left) {
+    justify-content: flex-start;
   }
 
-  /* 他のスタイルはそのまま維持 */
   div.post-relative-link > div.links-container > a {
     display: flex;
     align-items: center;
-    text-decoration: none; /* リンクの下線を削除 */
+    text-decoration: none;
   }
 
   div.post-relative-link > div.links-container > a > div:last-child {
@@ -201,107 +187,82 @@ const { prevPost, nextPost } = Astro.props
     background: rgba(227, 226, 224, 0.5);
     display: flex;
     align-items: center;
-    > div.links-container
-    > a.colored-left
-    > div:nth-child(2) {
-    width: 100%; /* 親要素の全幅を使用 */
-    /* padding: 0.2rem 0 0.4rem; */
+  }
+
+  div.post-relative-link > div.links-container > a.colored-left > div:nth-child(2) {
+    width: 100%;
     text-align: left;
     font-size: 1rem;
     font-weight: bold;
   }
-  div.post-relative-link
-    > div.links-container
-    > a.colored-right
-    > div:nth-child(1) {
-    width: 100%; /* 親要素の全幅を使用 */
-    /* padding: 0.2rem 0 0.4rem; */
+
+  div.post-relative-link > div.links-container > a.colored-right > div:nth-child(1) {
+    width: 100%;
     text-align: right;
     font-size: 1rem;
     font-weight: bold;
   }
 
-    /* 前の記事のリンクコンテナスタイルを修正 */
-    .links-container > a:has(.prev-post-content) {
+  .links-container > a:has(.prev-post-content) {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
   }
-  
 
-  /* モバイル表示用のスタイル */
   @media (max-width: 430px) {
     .links-container {
       flex-direction: column;
       gap: 1rem;
+      display: flex;
     }
 
     .links-container > a {
       max-width: 100%;
-    }
-
-    /* colored-leftとcolored-rightの順序を入れ替え */
-    .links-container {
       display: flex;
-      /* flex-direction: column-reverse; */
+      align-items: center;
     }
 
-    /* 矢印の位置調整 */
     .arrow-left, .arrow-right {
       align-self: center;
     }
 
-    /* リンク要素のスタイル調整 */
-    .links-container > a {
-      display: flex;
-      align-items: center;
-    }
-    /* コンテンツの配置調整 */
     .next-post-content, .prev-post-content {
       width: 100%;
       text-align: left;
       align-items: flex-start;
     }
 
-    /* タグの配置調整 */
     .next-post-content :global(.post-tags),
     .prev-post-content :global(.post-tags) {
       justify-content: flex-start;
     }
 
-        /* 前の記事のコンテンツ配置調整 */
-        .prev-post-content {
-    text-align: right;
-    margin-right: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: flex-start;
-  }
+    .prev-post-content {
+      text-align: right;
+      margin-right: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: flex-start;
+    }
 
-    /* 前の記事のタグ配置調整 */
     .prev-post-content :global(.post-tags) {
       justify-content: flex-end;
     }
 
-    /* 前の記事のリンク全体の配置調整 */
     .links-container > a:has(.prev-post-content) {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-  }
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+    }
 
-    /* 矢印の位置調整 */
     .arrow-left {
-      /* margin-left: 10px; */
       margin-left: 0;
     }
     .arrow-right {
-      /* margin-right: 10px; */
       margin-right: 0;
     }
   }
-
 </style>
