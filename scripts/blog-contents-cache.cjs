@@ -56,14 +56,35 @@ const getAllPages = async () => {
   const pages = await getAllPages();
   console.log(`Found ${pages.length} pages to process.`);
 
+  // Load cache metadata
+  const CACHE_META_PATH = path.join(__dirname, '../tmp/notion-cache-meta.json');
+  let cacheMeta = {};
+
+  if (fs.existsSync(CACHE_META_PATH)) {
+    try {
+      cacheMeta = JSON.parse(fs.readFileSync(CACHE_META_PATH, 'utf-8'));
+    } catch (e) {
+      console.warn('Failed to parse cache meta file, starting fresh.');
+    }
+  }
+
   const concurrency = parseInt(process.env.CACHE_CONCURRENCY || '1', 10);
 
   let processedCount = 0;
+  let skippedCount = 0;
 
   await PromisePool.withConcurrency(concurrency)
     .for(pages)
     .process(async (page) => {
       return new Promise((resolve) => {
+        // Check if page needs update
+        const cacheFileExists = fs.existsSync(path.join(__dirname, `../tmp/${page.id}.json`));
+        if (cacheFileExists && cacheMeta[page.id] === page.last_edited_time) {
+          skippedCount++;
+          // console.log(`[Skip] ${page.slug} (${page.id}) - Up to date`);
+          return resolve();
+        }
+
         const command = `NX_BRANCH=main npx nx run astro-notion-blog:_fetch-notion-blocks ${page.id} ${page.last_edited_time}`;
         const options = { timeout: 60000 };
 
@@ -73,13 +94,20 @@ const getAllPages = async () => {
             console.error(`[Error] Failed to process ${page.slug} (${page.id}): ${err.message}`);
             console.error(stderr);
           } else {
-            console.log(`[${processedCount}/${pages.length}] Processed ${page.slug} (${page.id})`);
-            // console.log(stdout); // Uncomment if you want full output
+            console.log(`[${processedCount + skippedCount}/${pages.length}] Processed ${page.slug} (${page.id})`);
+            // Update cache meta on success
+            cacheMeta[page.id] = page.last_edited_time;
           }
           return resolve();
         });
       });
     });
 
-  console.log('All pages processed.');
+  // Save updated cache metadata
+  if (!fs.existsSync(path.dirname(CACHE_META_PATH))) {
+    fs.mkdirSync(path.dirname(CACHE_META_PATH), { recursive: true });
+  }
+  fs.writeFileSync(CACHE_META_PATH, JSON.stringify(cacheMeta, null, 2));
+
+  console.log(`All pages processed. (Processed: ${processedCount}, Skipped: ${skippedCount})`);
 })();
