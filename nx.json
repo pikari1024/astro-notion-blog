@@ -3,7 +3,10 @@
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["_fetch-notion-blocks"],
+        "cacheableOperations": [
+          "_fetch-notion-blocks",
+          "build"
+        ],
         "parallel": 8
       }
     }

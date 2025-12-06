@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
-    "build:cached": "npm run cache:fetch && astro build",
+    "build:astro": "astro build",
+    "build": "nx build astro-notion-blog",
+    "build:cached": "npm run cache:fetch && nx build astro-notion-blog",
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint --ext .js,.ts,.astro src",

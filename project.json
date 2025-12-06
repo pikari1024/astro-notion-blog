@@ -1,0 +1,15 @@
+{
+    "name": "astro-notion-blog",
+    "targets": {
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "npm run build:astro",
+                "outputPath": "dist"
+            },
+            "outputs": [
+                "{projectRoot}/dist"
+            ]
+        }
+    }
+}
