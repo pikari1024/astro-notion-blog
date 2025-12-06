@@ -58,27 +58,6 @@ Cloudflare Pages のビルド環境で Node.js v22.11.0 を使用するように
 *   `.node-version`: `22.11.0`
 *   `.nvmrc`: `22.11.0`
 
-もしビルドが失敗する場合は、Cloudflare Pages の管理画面で環境変数 `NODE_VERSION` が古いバージョンに固定されていないか確認してください。
-
-### ビルド設定 (推奨)
-
-ビルド時間を短縮し、Notion の更新がないページの再構築をスキップするには、以下の設定を行ってください。
-
-1.  **Build command の変更**
-    Cloudflare Pages の設定で `Build command` を以下に変更します。
-    ```bash
-    npm run build:cached
-    ```
-
-2.  **Nx Cloud の設定 (オプション)**
-    ビルドキャッシュを永続化するために、[Nx Cloud](https://nx.app/) の利用を推奨します。
-    *   Nx Cloud でリポジトリを接続し、アクセストークンを取得。
-    *   Cloudflare Pages の環境変数に `NX_CLOUD_ACCESS_TOKEN` を追加。
-
-## ディレクトリ構成
-
-*   `src/`: ソースコード
-    *   `components/`: Astro/React コンポーネント
     *   `layouts/`: ページレイアウト
     *   `pages/`: ページルーティング
     *   `lib/`: Notion API クライアントなどのユーティリティ
