@@ -1,4 +1,6 @@
 const { exec } = require('child_process');
+const fs = require('fs');
+const path = require('path');
 const { Client } = require('@notionhq/client');
 const cliProgress = require('cli-progress');
 const { PromisePool } = require('@supercharge/promise-pool');
