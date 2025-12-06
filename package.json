@@ -68,9 +68,6 @@
           {
             "env": "DATABASE_ID"
           }
-        ],
-        "outputs": [
-          "{projectRoot}/.notion-cache"
         ]
       }
     },
