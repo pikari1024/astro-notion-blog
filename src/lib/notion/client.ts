@@ -232,8 +232,9 @@ export async function getNumberOfPagesByTag(tagName: string): Promise<number> {
 export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
   let results: responses.BlockObject[] = []
 
-  if (fs.existsSync(`tmp/${blockId}.json`)) {
-    results = JSON.parse(fs.readFileSync(`tmp/${blockId}.json`, 'utf-8'))
+  const CACHE_DIR = 'node_modules/.cache/astro-notion-blog'
+  if (fs.existsSync(`${CACHE_DIR}/${blockId}.json`)) {
+    results = JSON.parse(fs.readFileSync(`${CACHE_DIR}/${blockId}.json`, 'utf-8'))
   } else {
     const params: requestParams.RetrieveBlockChildren = {
       block_id: blockId,
@@ -792,8 +793,9 @@ function _buildBlock(blockObject: responses.BlockObject): Block {
 async function _getTableRows(blockId: string): Promise<TableRow[]> {
   let results: responses.BlockObject[] = []
 
-  if (fs.existsSync(`tmp/${blockId}.json`)) {
-    results = JSON.parse(fs.readFileSync(`tmp/${blockId}.json`, 'utf-8'))
+  const CACHE_DIR = 'node_modules/.cache/astro-notion-blog'
+  if (fs.existsSync(`${CACHE_DIR}/${blockId}.json`)) {
+    results = JSON.parse(fs.readFileSync(`${CACHE_DIR}/${blockId}.json`, 'utf-8'))
   } else {
     const params: requestParams.RetrieveBlockChildren = {
       block_id: blockId,
@@ -857,8 +859,9 @@ async function _getTableRows(blockId: string): Promise<TableRow[]> {
 async function _getColumns(blockId: string): Promise<Column[]> {
   let results: responses.BlockObject[] = []
 
-  if (fs.existsSync(`tmp/${blockId}.json`)) {
-    results = JSON.parse(fs.readFileSync(`tmp/${blockId}.json`, 'utf-8'))
+  const CACHE_DIR = 'node_modules/.cache/astro-notion-blog'
+  if (fs.existsSync(`${CACHE_DIR}/${blockId}.json`)) {
+    results = JSON.parse(fs.readFileSync(`${CACHE_DIR}/${blockId}.json`, 'utf-8'))
   } else {
     const params: requestParams.RetrieveBlockChildren = {
       block_id: blockId,

@@ -59,7 +59,13 @@ const getAllPages = async () => {
   console.log(`Found ${pages.length} pages to process.`);
 
   // Load cache metadata
-  const CACHE_META_PATH = path.join(__dirname, '../tmp/notion-cache-meta.json');
+  const CACHE_DIR = path.join(__dirname, '../node_modules/.cache/astro-notion-blog');
+  const CACHE_META_PATH = path.join(CACHE_DIR, 'notion-cache-meta.json');
+
+  if (!fs.existsSync(CACHE_DIR)) {
+    fs.mkdirSync(CACHE_DIR, { recursive: true });
+  }
+
   let cacheMeta = {};
 
   if (fs.existsSync(CACHE_META_PATH)) {
@@ -70,7 +76,7 @@ const getAllPages = async () => {
     }
   }
 
-  const concurrency = parseInt(process.env.CACHE_CONCURRENCY || '1', 10);
+  const concurrency = parseInt(process.env.CACHE_CONCURRENCY || '10', 10);
 
   let processedCount = 0;
   let skippedCount = 0;
@@ -80,7 +86,7 @@ const getAllPages = async () => {
     .process(async (page) => {
       return new Promise((resolve) => {
         // Check if page needs update
-        const cacheFileExists = fs.existsSync(path.join(__dirname, `../tmp/${page.id}.json`));
+        const cacheFileExists = fs.existsSync(path.join(CACHE_DIR, `${page.id}.json`));
         if (cacheFileExists && cacheMeta[page.id] === page.last_edited_time) {
           skippedCount++;
           // console.log(`[Skip] ${page.slug} (${page.id}) - Up to date`);

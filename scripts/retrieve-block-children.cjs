@@ -36,7 +36,14 @@ const retrieveAndWriteBlockChildren = async (blockId) => {
     params['start_cursor'] = res.next_cursor;
   }
 
-  fs.writeFileSync(`tmp/${blockId}.json`, JSON.stringify(results));
+  const path = require('path');
+  const CACHE_DIR = path.join(__dirname, '../node_modules/.cache/astro-notion-blog');
+
+  if (!fs.existsSync(CACHE_DIR)) {
+    fs.mkdirSync(CACHE_DIR, { recursive: true });
+  }
+
+  fs.writeFileSync(path.join(CACHE_DIR, `${blockId}.json`), JSON.stringify(results));
 
   results.forEach(async (block) => {
     if (
@@ -67,7 +74,12 @@ const retrieveAndWriteBlock = async (blockId) => {
 
   const block = await retry(3, () => notion.blocks.retrieve(params));
 
-  fs.writeFileSync(`tmp/${blockId}.json`, JSON.stringify(block));
+  const path = require('path');
+  const CACHE_DIR = path.join(__dirname, '../node_modules/.cache/astro-notion-blog');
+  if (!fs.existsSync(CACHE_DIR)) {
+    fs.mkdirSync(CACHE_DIR, { recursive: true });
+  }
+  fs.writeFileSync(path.join(CACHE_DIR, `${blockId}.json`), JSON.stringify(block));
 
   if (block.has_children) {
     await retrieveAndWriteBlockChildren(block.id);
