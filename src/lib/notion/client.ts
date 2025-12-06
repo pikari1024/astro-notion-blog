@@ -299,7 +299,17 @@ export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
     } else if (block.Type === 'to_do' && block.ToDo && block.HasChildren) {
       block.ToDo.Children = await getAllBlocksByBlockId(block.Id)
     } else if (block.Type === 'synced_block' && block.SyncedBlock) {
-      block.SyncedBlock.Children = await _getSyncedBlockChildren(block)
+      // Handle synced_block recursion
+      const syncedFrom = block.SyncedBlock.SyncedFrom
+      if (syncedFrom && syncedFrom.BlockId) {
+        // If it's a reference to another block, fetch that block's children
+        block.SyncedBlock.Children = await getAllBlocksByBlockId(syncedFrom.BlockId)
+      } else if (block.HasChildren) {
+        // If it's the original block, fetch its own children
+        block.SyncedBlock.Children = await getAllBlocksByBlockId(block.Id)
+      } else {
+        block.SyncedBlock.Children = []
+      }
     } else if (block.Type === 'toggle' && block.Toggle) {
       block.Toggle.Children = await getAllBlocksByBlockId(block.Id)
     } else if (
