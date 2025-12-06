@@ -54,14 +54,11 @@ const getAllPages = async () => {
 
 (async () => {
   const pages = await getAllPages();
+  console.log(`Found ${pages.length} pages to process.`);
 
   const concurrency = parseInt(process.env.CACHE_CONCURRENCY || '1', 10);
 
-  const progressBar = new cliProgress.SingleBar(
-    { stopOnComplete: true },
-    cliProgress.Presets.shades_classic
-  );
-  progressBar.start(pages.length, 0);
+  let processedCount = 0;
 
   await PromisePool.withConcurrency(concurrency)
     .for(pages)
@@ -71,12 +68,18 @@ const getAllPages = async () => {
         const options = { timeout: 60000 };
 
         exec(command, options, (err, stdout, stderr) => {
+          processedCount++;
           if (err) {
-            console.error(`exec error: ${err}`);
+            console.error(`[Error] Failed to process ${page.slug} (${page.id}): ${err.message}`);
+            console.error(stderr);
+          } else {
+            console.log(`[${processedCount}/${pages.length}] Processed ${page.slug} (${page.id})`);
+            // console.log(stdout); // Uncomment if you want full output
           }
-          progressBar.increment();
           return resolve();
         });
       });
     });
+
+  console.log('All pages processed.');
 })();
