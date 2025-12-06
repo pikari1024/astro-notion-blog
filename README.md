@@ -49,6 +49,35 @@ npm run build
 
 生成されたファイルは `dist/` ディレクトリに出力されます。
 
+## ビルド最適化 (推奨)
+
+Notion コンテンツの取得をキャッシュし、変更があったページのみを再取得することでビルド時間を大幅に短縮します。
+
+### 1. Nx Cloud の設定
+Nx Cloud を利用してビルドアーティファクトをキャッシュします。
+[Nx Cloud](https://nx.app/) にサインアップし、アクセストークンを取得してください。
+
+### 2. 環境変数の追加
+`.env` ファイルおよび Cloudflare Pages の環境変数に以下を追加してください。
+
+```env
+NX_CLOUD_ACCESS_TOKEN=your_nx_cloud_access_token
+```
+
+### 3. キャッシュ付きビルドの実行
+
+**ローカル / Cloudflare Pages 共通:**
+
+```bash
+npm run build:cached
+```
+
+このコマンドは以下の処理を順に行います：
+1.  `npm run cache:fetch`: Notion からコンテンツを取得（前回ビルドからの差分のみ取得）
+2.  `nx build`: Astro ビルドを実行（Nx Cloud キャッシュを利用）
+
+> **Note**: Cloudflare Pages の「Build command」設定も `npm run build:cached` に変更することを推奨します。
+
 ## デプロイ (Cloudflare Pages)
 
 このプロジェクトは Cloudflare Pages へのデプロイ向けに構成されています。
