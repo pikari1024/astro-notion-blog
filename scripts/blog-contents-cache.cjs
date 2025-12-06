@@ -59,8 +59,15 @@ const getAllPages = async () => {
   console.log(`Found ${pages.length} pages to process.`);
 
   // Load cache metadata
-  const CACHE_DIR = path.join(__dirname, '../node_modules/.cache/astro-notion-blog');
+  const CACHE_DIR = path.join(__dirname, '../.notion-cache');
+  const DIST_CACHE_DIR = path.join(__dirname, '../dist/notion-cache');
   const CACHE_META_PATH = path.join(CACHE_DIR, 'notion-cache-meta.json');
+
+  // Restore cache from dist if available (Cloudflare Pages persistence)
+  if (fs.existsSync(DIST_CACHE_DIR) && !fs.existsSync(CACHE_DIR)) {
+    console.log('Restoring cache from dist/notion-cache...');
+    fs.cpSync(DIST_CACHE_DIR, CACHE_DIR, { recursive: true });
+  }
 
   if (!fs.existsSync(CACHE_DIR)) {
     fs.mkdirSync(CACHE_DIR, { recursive: true });

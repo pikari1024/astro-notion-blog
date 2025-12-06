@@ -232,7 +232,7 @@ export async function getNumberOfPagesByTag(tagName: string): Promise<number> {
 export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
   let results: responses.BlockObject[] = []
 
-  const CACHE_DIR = 'node_modules/.cache/astro-notion-blog'
+  const CACHE_DIR = '.notion-cache'
   if (fs.existsSync(`${CACHE_DIR}/${blockId}.json`)) {
     results = JSON.parse(fs.readFileSync(`${CACHE_DIR}/${blockId}.json`, 'utf-8'))
   } else {
@@ -793,7 +793,7 @@ function _buildBlock(blockObject: responses.BlockObject): Block {
 async function _getTableRows(blockId: string): Promise<TableRow[]> {
   let results: responses.BlockObject[] = []
 
-  const CACHE_DIR = 'node_modules/.cache/astro-notion-blog'
+  const CACHE_DIR = '.notion-cache'
   if (fs.existsSync(`${CACHE_DIR}/${blockId}.json`)) {
     results = JSON.parse(fs.readFileSync(`${CACHE_DIR}/${blockId}.json`, 'utf-8'))
   } else {

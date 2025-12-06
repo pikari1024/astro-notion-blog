@@ -8,7 +8,7 @@
     "start": "astro dev",
     "build:astro": "astro build",
     "build": "nx build astro-notion-blog",
-    "build:cached": "npm run cache:fetch && nx build astro-notion-blog",
+    "build:cached": "npm run cache:fetch && nx build astro-notion-blog && node scripts/save-cache.cjs",
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint --ext .js,.ts,.astro src",
@@ -70,7 +70,7 @@
           }
         ],
         "outputs": [
-          "{projectRoot}/node_modules/.cache/astro-notion-blog"
+          "{projectRoot}/.notion-cache"
         ]
       }
     },
