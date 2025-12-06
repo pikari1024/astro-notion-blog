@@ -270,6 +270,11 @@ export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
     }
   }
 
+  if (!Array.isArray(results)) {
+    console.warn(`[getAllBlocksByBlockId] results is not an array for blockId: ${blockId}. Type: ${typeof results}`, results)
+    results = []
+  }
+
   const allBlocks = results.map((blockObject) => _buildBlock(blockObject))
 
   for (let i = 0; i < allBlocks.length; i++) {
