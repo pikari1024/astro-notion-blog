@@ -13,24 +13,36 @@ export interface Props {
 const { block, headings } = Astro.props
 
 const textContent = block.Paragraph.RichTexts.map(t => t.PlainText).join('')
-if (/rakuten_/i.test(textContent)) {
-  console.log(`[Paragraph.astro] Found Rakuten code in PARAGRAPH block: ${textContent.substring(0, 50)}...`)
-  console.log(`[Paragraph.astro] This should likely be a CODE block in Notion.`)
-}
+const isRakutenScript = textContent.includes('<script') && /rakuten_/i.test(textContent)
 ---
 
-<p class={snakeToKebab(block.Paragraph.Color)}>
-  {
-    block.Paragraph.RichTexts.map((richText: interfaces.RichText) => (
-      <RichText richText={richText} />
-    ))
-  }
-  {
-    block.Paragraph.Children && (
-      <NotionBlocks blocks={block.Paragraph.Children} headings={headings} />
-    )
-  }
-</p>
+{
+  isRakutenScript ? (
+    <div class="rakuten-affiliate" set:html={textContent} />
+  ) : (
+    <p class={snakeToKebab(block.Paragraph.Color)}>
+      {
+        block.Paragraph.RichTexts.map((richText: interfaces.RichText) => (
+          <RichText richText={richText} />
+        ))
+      }
+      {
+        block.Paragraph.Children && (
+          <NotionBlocks blocks={block.Paragraph.Children} headings={headings} />
+        )
+      }
+    </p>
+  )
+}
+
+<script>
+  document.querySelectorAll('.rakuten-affiliate script').forEach(oldScript => {
+    const newScript = document.createElement('script');
+    Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+    newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+    oldScript.parentNode.replaceChild(newScript, oldScript);
+  });
+</script>
 
 <style>
   p {

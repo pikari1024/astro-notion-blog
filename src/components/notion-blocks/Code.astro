@@ -33,15 +33,7 @@ const grammar =
 const highlightedCode = Prism.highlight(code, grammar, language)
 const lines = highlightedCode.split('\n')
 
-console.log('DEBUG: Code block content:', JSON.stringify(code))
-
 const isRakutenAffiliate = /rakuten_/i.test(code)
-console.log(`[Code.astro] isRakutenAffiliate: ${isRakutenAffiliate}`)
-if (isRakutenAffiliate) {
-  console.log(`[Code.astro] Matched Rakuten code: ${code.substring(0, 50)}...`)
-} else {
-  console.log(`[Code.astro] Did NOT match Rakuten code. Code snippet: ${code.substring(0, 50)}...`)
-}
 ---
 
 {
