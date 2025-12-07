@@ -109,6 +109,12 @@ if (database.Icon && database.Icon.Type === 'file') {
       </div>
     </div>
 
+    <button id="scroll-to-top-btn" class="scroll-to-top-btn" aria-label="ページトップへ戻る">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 15l-6-6-6 6"/>
+      </svg>
+    </button>
+
     {
       path !== '/' && (
         <a href={getNavLink('/')} class="floating-home-btn" aria-label="トップページへ戻る">
@@ -271,6 +277,36 @@ footer {
   background-color: #555;
 }
 
+.scroll-to-top-btn {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background-color: #333;
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  z-index: 100;
+  transition: background-color 0.3s, opacity 0.3s;
+  border: none;
+  cursor: pointer;
+  opacity: 0; /* Initially hidden */
+  pointer-events: none;
+}
+
+.scroll-to-top-btn.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.scroll-to-top-btn:hover {
+  background-color: #555;
+}
+
 @media (max-width: 1280px) {
   .content-wrapper {
     flex-direction: column-reverse;
@@ -321,4 +357,23 @@ footer {
   window.addEventListener('resize', adjustHeaderHeight);
   // 初期表示時にも実行
   adjustHeaderHeight();
+
+  // Scroll to Top logic
+  const scrollToTopBtn = document.getElementById('scroll-to-top-btn');
+  if (scrollToTopBtn) {
+    scrollToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollToTopBtn.classList.add('visible');
+      } else {
+        scrollToTopBtn.classList.remove('visible');
+      }
+    });
+  }
 </script>
