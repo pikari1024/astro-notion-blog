@@ -13,11 +13,12 @@ export interface Props {
 const { block, headings } = Astro.props
 
 const textContent = block.Paragraph.RichTexts.map(t => t.PlainText).join('')
-const isRakutenScript = textContent.includes('<script') && /rakuten_/i.test(textContent)
+const isRakutenAffiliate = (textContent.includes('<script') && /rakuten_/i.test(textContent)) || 
+                           (textContent.trim().startsWith('<a') && textContent.includes('rakuten.co.jp'))
 ---
 
 {
-  isRakutenScript ? (
+  isRakutenAffiliate ? (
     <div class="rakuten-affiliate" set:html={textContent} />
   ) : (
     <p class={snakeToKebab(block.Paragraph.Color)}>
