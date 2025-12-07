@@ -32,26 +32,43 @@ const grammar =
 
 const highlightedCode = Prism.highlight(code, grammar, language)
 const lines = highlightedCode.split('\n')
+
+const isRakutenAffiliate = code.includes('rakuten_design=') || code.includes('rakuten_widget')
 ---
 
-<div class="code line-numbers">
-  <div>
-    <div class="code-header">
-      <button class="copy" data-code={code} data-done-text="Copied!">
-        Copy
-      </button>
+{
+  isRakutenAffiliate ? (
+    <div class="rakuten-affiliate" set:html={code} />
+  ) : (
+    <div class="code line-numbers">
+      <div>
+        <div class="code-header">
+          <button class="copy" data-code={code} data-done-text="Copied!">
+            Copy
+          </button>
+        </div>
+        <div class="code-content">
+          <ul class="line-numbers-rows">
+            {lines.map((_, index) => (
+              <li><span>{index + 1}</span></li>
+            ))}
+          </ul>
+          <pre class="line-numbers"><code class={`language-${language}`} set:html={highlightedCode} /></pre>
+        </div>
+      </div>
+      <Caption richTexts={block.Code.Caption} />
     </div>
-    <div class="code-content">
-      <ul class="line-numbers-rows">
-        {lines.map((_, index) => (
-          <li><span>{index + 1}</span></li>
-        ))}
-      </ul>
-      <pre class="line-numbers"><code class={`language-${language}`} set:html={highlightedCode} /></pre>
-    </div>
-  </div>
-  <Caption richTexts={block.Code.Caption} />
-</div>
+  )
+}
+
+<script>
+  document.querySelectorAll('.rakuten-affiliate script').forEach(oldScript => {
+    const newScript = document.createElement('script');
+    Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+    newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+    oldScript.parentNode.replaceChild(newScript, oldScript);
+  });
+</script>
 
 <script>
   import mermaid from 'mermaid'
