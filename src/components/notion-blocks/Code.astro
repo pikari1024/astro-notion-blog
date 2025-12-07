@@ -40,7 +40,7 @@ const isRakutenAffiliate = /rakuten_design\s*=|rakuten_widget|rakuten_affiliateI
 
 {
   isRakutenAffiliate ? (
-    <div class="rakuten-affiliate" data-html={code} />
+    <div class="rakuten-affiliate" set:html={code} />
   ) : (
     <div class="code line-numbers">
       <div>
@@ -64,43 +64,11 @@ const isRakutenAffiliate = /rakuten_design\s*=|rakuten_widget|rakuten_affiliateI
 }
 
 <script>
-  document.querySelectorAll('.rakuten-affiliate').forEach(container => {
-    // Prevent double initialization
-    if (container.shadowRoot || container.querySelector('iframe')) return;
-
-    const code = (container as HTMLElement).dataset.html;
-    if (!code) return;
-
-    const iframe = document.createElement('iframe');
-    // Default size for Rakuten banner, but it might vary. 
-    // We can try to parse it or set a reasonable default.
-    // The script usually contains rakuten_size="728x90" or similar.
-    const sizeMatch = code.match(/rakuten_size="(\d+)x(\d+)"/);
-    if (sizeMatch) {
-      iframe.width = sizeMatch[1];
-      iframe.height = sizeMatch[2];
-    } else {
-      iframe.width = "100%"; // Fallback
-      iframe.height = "auto";
-    }
-    
-    iframe.style.border = "none";
-    iframe.style.overflow = "hidden";
-    
-    container.appendChild(iframe);
-
-    const doc = iframe.contentWindow?.document;
-    if (doc) {
-      doc.open();
-      doc.write(`
-        <html>
-          <body style="margin:0;padding:0;background:transparent;">
-            ${code}
-          </body>
-        </html>
-      `);
-      doc.close();
-    }
+  document.querySelectorAll('.rakuten-affiliate script').forEach(oldScript => {
+    const newScript = document.createElement('script');
+    Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+    newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+    oldScript.parentNode.replaceChild(newScript, oldScript);
   });
 </script>
 
@@ -177,6 +145,7 @@ const isRakutenAffiliate = /rakuten_design\s*=|rakuten_widget|rakuten_affiliateI
   }
   .code-content {
     display: flex;
+    position: relative;
     position: relative;
   }
   .code pre {
