@@ -35,7 +35,7 @@ const lines = highlightedCode.split('\n')
 
 console.log('DEBUG: Code block content:', JSON.stringify(code))
 
-const isRakutenAffiliate = /rakuten_design\s*=|rakuten_widget/.test(code)
+const isRakutenAffiliate = /rakuten_design\s*=|rakuten_widget|rakuten_affiliateId/.test(code)
 ---
 
 {
