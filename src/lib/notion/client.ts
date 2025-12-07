@@ -312,6 +312,7 @@ export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
       } else {
         block.SyncedBlock.Children = []
       }
+      console.log(`[client.ts] Fetched SyncedBlock children. Count: ${block.SyncedBlock.Children.length}`)
     } else if (block.Type === 'toggle' && block.Toggle) {
       block.Toggle.Children = await getAllBlocksByBlockId(block.Id)
     } else if (
