@@ -223,7 +223,7 @@ h1 a {
 aside {
   width: 400px;
   max-width: calc(100% - 40px);
-  padding: 5px;
+  padding: 20px;
   border-radius: 15px;
   box-shadow: 0 0 8px 3px rgba(0, 0, 0, 0.05);
   position: relative;
@@ -237,7 +237,7 @@ aside p.search-label {
 
 main {
   flex: 1;
-  padding: 5px;
+  padding: 20px;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -314,6 +314,7 @@ footer {
 
   aside {
     width: 100%;
+    max-width: 100%;
     margin-top: 20px;
   }
 
@@ -321,6 +322,9 @@ footer {
     margin-left: 0;
   }
   @media (max-width: 430px) {
+    aside, main {
+      padding: 5px;
+    }
     .description {
       font-size: 0.8rem;
     }
