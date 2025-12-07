@@ -1,14 +1,13 @@
-
-
-
 .post {
   margin: 0 auto 10px;
 }
+
 .post footer {
   margin-top: 0.5rem;
   padding: 0;
   border: 0;
 }
+
 .postContent {
   display: flex;
   align-items: flex-start;
@@ -27,12 +26,13 @@
 .postMetaInner {
   display: flex;
   align-items: center;
-  flex-direction: row; /* PC表示で左右に表示 */
+  flex-direction: row;
+  /* PC表示で左右に表示 */
 }
 
 .postTitle {
   margin: 0 0 1rem;
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 700;
   color: var(--fg);
 }
@@ -46,7 +46,8 @@
   width: 100%;
   height: auto;
   object-fit: contain;
-  border-radius: 10px; /* 角を丸くする */
+  border-radius: 10px;
+  /* 角を丸くする */
 }
 
 /* モバイル画面向けのスタイル */
@@ -62,13 +63,16 @@
   .postInfo {
     width: 100%;
   }
-  .postMetaInner {
-    flex-direction: column; /* モバイル表示で上下に表示 */
 
-    align-items: flex-start; /* 左詰めで表示 */
+  .postMetaInner {
+    flex-direction: column;
+    /* モバイル表示で上下に表示 */
+
+    align-items: flex-start;
+    /* 左詰めで表示 */
   }
 
   .postTitle {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
 }
