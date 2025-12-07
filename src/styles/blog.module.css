@@ -32,7 +32,7 @@
 
 .postTitle {
   margin: 0 0 1rem;
-  font-size: 2.25rem;
+  font-size: 2rem;
   font-weight: 700;
   color: var(--fg);
 }
@@ -73,6 +73,6 @@
   }
 
   .postTitle {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 }
