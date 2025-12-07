@@ -52,6 +52,7 @@ npm run build
 ## ビルド最適化 (推奨)
 
 Notion コンテンツの取得をキャッシュし、変更があったページのみを再取得することでビルド時間を大幅に短縮します。
+本プロジェクトでは、Cloudflare Pages の **Build Cache** 機能を活用する「Cloudflare ネイティブ・キャッシュ戦略」を採用しています。
 
 ### 1. Nx Cloud の設定
 Nx Cloud を利用してビルドアーティファクトをキャッシュします。
@@ -64,7 +65,15 @@ Nx Cloud を利用してビルドアーティファクトをキャッシュし�
 NX_CLOUD_ACCESS_TOKEN=your_nx_cloud_access_token
 ```
 
-### 3. キャッシュ付きビルドの実行
+### 3. Cloudflare Pages の設定 (重要)
+Cloudflare Pages のダッシュボードで以下の設定を行ってください。
+
+1.  **Build Cache (ビルドキャッシュ)**: **有効 (Enable)** に設定してください。
+    *   これにより `node_modules` がキャッシュされ、Notion のデータも永続化されます。
+2.  **Install command**: `npm install` (推奨)
+    *   デフォルトの `npm ci` でも動作する可能性がありますが、`npm install` の方がキャッシュ保持の観点で確実です。
+
+### 4. キャッシュ付きビルドの実行
 
 **ローカル / Cloudflare Pages 共通:**
 
@@ -73,8 +82,9 @@ npm run build:cached
 ```
 
 このコマンドは以下の処理を順に行います：
-1.  `npm run cache:fetch`: Notion からコンテンツを取得（前回ビルドからの差分のみ取得）
+1.  `npm run cache:fetch`: Notion からコンテンツを取得（`node_modules/.astro/notion-cache` にキャッシュ）
 2.  `nx build`: Astro ビルドを実行（Nx Cloud キャッシュを利用）
+3.  `node scripts/save-cache.cjs`: キャッシュを `dist` にバックアップ（保険）
 
 > **Note**: Cloudflare Pages の「Build command」設定も `npm run build:cached` に変更することを推奨します。
 
@@ -87,6 +97,10 @@ Cloudflare Pages のビルド環境で Node.js v22.11.0 を使用するように
 *   `.node-version`: `22.11.0`
 *   `.nvmrc`: `22.11.0`
 
+## ディレクトリ構成
+
+*   `src/`: ソースコード
+    *   `components/`: React/Astro コンポーネント
     *   `layouts/`: ページレイアウト
     *   `pages/`: ページルーティング
     *   `lib/`: Notion API クライアントなどのユーティリティ
