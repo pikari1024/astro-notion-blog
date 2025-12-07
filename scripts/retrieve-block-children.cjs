@@ -37,7 +37,7 @@ const retrieveAndWriteBlockChildren = async (blockId) => {
   }
 
   const path = require('path');
-  const CACHE_DIR = path.join(__dirname, '../.notion-cache');
+  const CACHE_DIR = path.join(__dirname, '../node_modules/.astro/notion-cache');
 
   if (!fs.existsSync(CACHE_DIR)) {
     fs.mkdirSync(CACHE_DIR, { recursive: true });

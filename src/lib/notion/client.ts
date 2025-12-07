@@ -1,3 +1,4 @@
+import path from 'node:path'
 import fs, { createWriteStream } from 'node:fs'
 import { pipeline } from 'node:stream/promises'
 import axios from 'axios'
@@ -232,7 +233,7 @@ export async function getNumberOfPagesByTag(tagName: string): Promise<number> {
 export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
   let results: responses.BlockObject[] = []
 
-  const CACHE_DIR = '.notion-cache'
+  const CACHE_DIR = path.join(process.cwd(), 'node_modules/.astro/notion-cache')
   if (fs.existsSync(`${CACHE_DIR}/${blockId}.json`)) {
     results = JSON.parse(fs.readFileSync(`${CACHE_DIR}/${blockId}.json`, 'utf-8'))
   } else {
@@ -793,7 +794,7 @@ function _buildBlock(blockObject: responses.BlockObject): Block {
 async function _getTableRows(blockId: string): Promise<TableRow[]> {
   let results: responses.BlockObject[] = []
 
-  const CACHE_DIR = '.notion-cache'
+  const CACHE_DIR = path.join(process.cwd(), 'node_modules/.astro/notion-cache')
   if (fs.existsSync(`${CACHE_DIR}/${blockId}.json`)) {
     results = JSON.parse(fs.readFileSync(`${CACHE_DIR}/${blockId}.json`, 'utf-8'))
   } else {

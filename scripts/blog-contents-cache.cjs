@@ -59,19 +59,14 @@ const getAllPages = async () => {
   console.log(`Found ${pages.length} pages to process.`);
 
   // Load cache metadata
-  const CACHE_DIR = path.join(__dirname, '../.notion-cache');
+  const CACHE_DIR = path.join(__dirname, '../node_modules/.astro/notion-cache');
   const DIST_CACHE_DIR = path.join(__dirname, '../dist/notion-cache');
   const CACHE_META_PATH = path.join(CACHE_DIR, 'notion-cache-meta.json');
 
-  // Restore cache from dist or node_modules (Hybrid Strategy)
-  const NM_CACHE_DIR = path.join(__dirname, '../node_modules/.cache/astro-notion-blog');
-
+  // Restore cache from dist if available (Backup)
   if (fs.existsSync(DIST_CACHE_DIR) && !fs.existsSync(CACHE_DIR)) {
     console.log('Restoring cache from dist/notion-cache...');
     fs.cpSync(DIST_CACHE_DIR, CACHE_DIR, { recursive: true });
-  } else if (fs.existsSync(NM_CACHE_DIR) && !fs.existsSync(CACHE_DIR)) {
-    console.log('Restoring cache from node_modules/.cache/astro-notion-blog...');
-    fs.cpSync(NM_CACHE_DIR, CACHE_DIR, { recursive: true });
   }
 
   if (!fs.existsSync(CACHE_DIR)) {
