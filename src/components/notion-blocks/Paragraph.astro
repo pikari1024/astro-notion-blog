@@ -11,6 +11,12 @@ export interface Props {
 }
 
 const { block, headings } = Astro.props
+
+const textContent = block.Paragraph.RichTexts.map(t => t.PlainText).join('')
+if (/rakuten_/i.test(textContent)) {
+  console.log(`[Paragraph.astro] Found Rakuten code in PARAGRAPH block: ${textContent.substring(0, 50)}...`)
+  console.log(`[Paragraph.astro] This should likely be a CODE block in Notion.`)
+}
 ---
 
 <p class={snakeToKebab(block.Paragraph.Color)}>
