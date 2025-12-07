@@ -1,12 +1,5 @@
 .post {
   margin: 0 auto 10px;
-  padding: 1rem;
-  border-radius: 10px;
-  transition: background-color 0.2s ease;
-}
-
-.post:hover {
-  background-color: rgba(0, 0, 0, 0.03);
 }
 
 .post footer {
@@ -72,11 +65,10 @@
   }
 
   .postMetaInner {
-    flex-direction: column;
-    /* モバイル表示で上下に表示 */
-
-    align-items: flex-start;
-    /* 左詰めで表示 */
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
   }
 
   .postTitle {
