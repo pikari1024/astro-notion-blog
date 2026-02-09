@@ -157,7 +157,7 @@ const bookmarkURLs = blocks
     }
     return url;
   })
-  .filter((url: URL | null) => url && !isTweetURL(url) && !isAmazonURL(url));
+  .filter((url: URL | null) => url && !isTweetURL(url));
 
 const bookmarkURLMap = await buildURLToHTMLMap(bookmarkURLs);
 ---

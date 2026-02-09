@@ -5,6 +5,7 @@ import metascraperImage from 'metascraper-image'
 import metascraperTitle from 'metascraper-title'
 import { isAmazonURL } from '../../lib/blog-helpers.ts'
 import * as interfaces from '../../lib/interfaces.ts'
+import AmazonEmbed from './AmazonEmbed.astro'
 
 export interface Props {
   block: interfaces.Block
@@ -20,16 +21,14 @@ let metadata: Record<string, string>
 try {
   url = new URL(urlString)
 
-  if (!isAmazonURL(url)) {
-    const metascraper = createMetascraper([
-      metascraperDescription(),
-      metascraperImage(),
-      metascraperTitle(),
-    ])
-    const html = urlMap[url.toString()]
-    if (html) {
-      metadata = await metascraper({ html, url })
-    }
+  const metascraper = createMetascraper([
+    metascraperDescription(),
+    metascraperImage(),
+    metascraperTitle(),
+  ])
+  const html = urlMap[url.toString()]
+  if (html) {
+    metadata = await metascraper({ html, url })
   }
 } catch (err) {
   console.log(err)
@@ -40,9 +39,7 @@ try {
   url && (
     <>
       {isAmazonURL(url) ? (
-        <div class="no-metadata">
-          <a href={url.toString()}>{url.toString()}</a>
-        </div>
+        <AmazonEmbed url={url} metadata={metadata} />
       ) : (
         <div class="bookmark">
           <a href={url.toString()} target="_blank" rel="noopener noreferrer">

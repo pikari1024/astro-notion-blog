@@ -95,7 +95,16 @@ export const buildURLToHTMLMap = async (
         controller.abort()
       }, REQUEST_TIMEOUT_MS)
 
-      return fetch(url.toString(), { signal: controller.signal })
+      const headers: Record<string, string> = {}
+      if (isAmazonURL(url)) {
+        headers['User-Agent'] =
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      }
+
+      return fetch(url.toString(), {
+        signal: controller.signal,
+        headers,
+      })
         .then((res) => {
           return res.text()
         })
@@ -143,9 +152,9 @@ export const getPageLink = (page: number, tag: string) => {
   }
   return tag
     ? pathJoin(
-        BASE_PATH,
-        `/posts/tag/${encodeURIComponent(tag)}/page/${page.toString()}`
-      )
+      BASE_PATH,
+      `/posts/tag/${encodeURIComponent(tag)}/page/${page.toString()}`
+    )
     : pathJoin(BASE_PATH, `/posts/page/${page.toString()}`)
 }
 
@@ -247,6 +256,25 @@ export const isFullAmazonURL = (url: URL): boolean => {
 
 export const isAmazonURL = (url: URL): boolean => {
   return isShortAmazonURL(url) || isFullAmazonURL(url)
+}
+
+export const getAmazonAsin = (url: URL): string | null => {
+  if (!isAmazonURL(url)) return null
+
+  if (isShortAmazonURL(url)) {
+    // Short URLs like amzn.to/xxx don't contain ASIN.
+    // They need to be expanded, but for now we return null.
+    return null
+  }
+
+  // Full URLs like amazon.co.jp/dp/ASIN... or amazon.co.jp/gp/product/ASIN...
+  const dpMatch = url.pathname.match(/\/dp\/([A-Z0-9]{10})/i)
+  if (dpMatch) return dpMatch[1]
+
+  const gpMatch = url.pathname.match(/\/gp\/product\/([A-Z0-9]{10})/i)
+  if (gpMatch) return gpMatch[1]
+
+  return null
 }
 
 export const isYouTubeURL = (url: URL): boolean => {
