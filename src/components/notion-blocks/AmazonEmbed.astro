@@ -44,28 +44,30 @@ if (!image && metadata?.image) {
 </div>
 
 <style>
+  /* --- Base Styles (Mobile First: Default for narrow screens) --- */
   .amazon-embed {
-    display: flex;
-    overflow: hidden;
+    display: block;
     width: 100%;
     max-width: 100%;
     font-size: 0.9rem;
     margin: 1.5rem 0;
+    overflow: visible; /* Absolutely no clipping on mobile */
   }
   .amazon-embed > a {
+    display: block;
     width: 100%;
     box-sizing: border-box;
     text-decoration: none;
     border: 1px solid rgba(55, 53, 47, 0.12);
     border-radius: 12px;
-    display: flex;
-    overflow: hidden;
     user-select: none;
     background-color: #ffffff;
     transition:
       background 120ms ease-in,
       box-shadow 120ms ease-in;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    overflow: visible; /* Ensure content can push the card height */
+    height: auto;
   }
   .amazon-embed > a:hover {
     background-color: #fafafa;
@@ -73,34 +75,30 @@ if (!image && metadata?.image) {
   }
   .amazon-embed-content {
     display: flex;
-    flex-direction: row;
+    flex-direction: column; /* Stack vertically on mobile */
     width: 100%;
-    overflow: hidden;
-    min-height: 160px;
-    max-height: 240px;
+    height: auto;
+    overflow: visible;
   }
   .amazon-embed-left {
-    flex: 1 1 0; /* Grow and shrink, but start at 0 */
-    min-width: 0; /* Essential for text wrapping in flexbox */
-    padding: 24px;
+    padding: 24px 16px 36px; /* Plenty of padding below the button */
     display: flex;
     flex-direction: column;
+    align-items: center; /* Center everything on mobile for balanced margins */
     justify-content: center;
-    overflow: hidden;
-    text-align: left;
+    text-align: center;
     color: var(--fg);
+    overflow: visible;
+    order: 2; /* Content below image */
   }
   .amazon-embed-title {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     line-height: 1.4;
     font-weight: 700;
     color: #111;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     word-break: break-word;
+    /* No line clamp on mobile to show full title */
   }
   .amazon-embed-url {
     font-size: 0.85rem;
@@ -116,9 +114,9 @@ if (!image && metadata?.image) {
     justify-content: center;
     background-color: #131921;
     color: #ffffff;
-    padding: 10px 24px;
+    padding: 14px 24px;
     border-radius: 100px;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     font-weight: 700;
     text-align: center;
     width: fit-content;
@@ -130,44 +128,78 @@ if (!image && metadata?.image) {
     background-color: #232f3e;
   }
   .amazon-embed-right {
-    flex: 0 0 160px; /* Fixed width: no grow, no shrink */
-    width: 160px;
+    width: 100%;
     background-color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0; /* Padding removed to make image larger */
-    border-left: 1px solid rgba(55, 53, 47, 0.06);
+    padding: 16px 0; /* Some space for the product image */
+    border-bottom: 1px solid rgba(55, 53, 47, 0.08); /* Clearer separator */
     overflow: hidden;
+    order: 1; /* Image on top */
   }
   .amazon-embed-right img {
     display: block;
     max-width: 100%;
-    max-height: 160px; /* Increased to fill container */
+    max-height: 200px; /* Decent visibility for product images on mobile */
     width: auto;
     height: auto;
     object-fit: contain;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
   }
-  @media (max-width: 640px) {
+
+  /* --- Desktop Styles (screens wider than 640px) --- */
+  @media (min-width: 641px) {
+    .amazon-embed {
+      display: flex;
+      overflow: hidden;
+    }
+    .amazon-embed > a {
+      display: flex;
+      overflow: hidden;
+    }
     .amazon-embed-content {
-      min-height: auto;
+      flex-direction: row; /* Side-by-side on PC */
+      min-height: 160px;
+      max-height: 240px;
+      overflow: hidden;
     }
     .amazon-embed-left {
-      padding: 16px;
+      flex: 1 1 0;
+      min-width: 0;
+      padding: 24px;
+      align-items: flex-start; /* Revert to left align on PC */
+      justify-content: center;
+      text-align: left;
+      order: 1; /* Content on left */
+      overflow: hidden;
     }
     .amazon-embed-title {
-      font-size: 1rem;
+      font-size: 1.1rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .amazon-embed-url {
+      margin-bottom: 20px;
     }
     .amazon-embed-button {
-      min-width: 100%;
-      padding: 8px 16px;
-      font-size: 0.85rem;
+      padding: 10px 24px;
+      font-size: 0.9rem;
+      min-width: 240px;
     }
     .amazon-embed-right {
-      flex: 0 0 100px;
-      width: 100px;
-      padding: 8px;
+      flex: 0 0 160px;
+      width: 160px;
+      padding: 0;
+      border-bottom: none;
+      border-left: 1px solid rgba(55, 53, 47, 0.06);
+      order: 2; /* Image on right */
+    }
+    .amazon-embed-right img {
+      max-height: 160px;
     }
   }
 </style>
