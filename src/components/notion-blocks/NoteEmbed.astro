@@ -1,0 +1,185 @@
+---
+export interface Props {
+  url: URL
+  metadata?: Record<string, string>
+}
+
+const { url, metadata } = Astro.props
+
+const title = metadata?.title || 'noteで続きを読む'
+const image = metadata?.image || ''
+---
+
+<div class="note-embed">
+  <a href={url.toString()} target="_blank" rel="noopener noreferrer">
+    <div class="note-embed-content">
+      <div class="note-embed-left">
+        <div class="note-embed-title">{title}</div>
+        <div class="note-embed-url">{url.hostname}</div>
+        <div class="note-embed-button">noteで続きを読む</div>
+      </div>
+      {
+        image && (
+          <div class="note-embed-right">
+            <img src={image} alt={title} loading="lazy" />
+          </div>
+        )
+      }
+    </div>
+  </a>
+</div>
+
+<style>
+  /* --- Base Styles (Mobile First: Default for narrow screens) --- */
+  .note-embed {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    font-size: 0.9rem;
+    margin: 1.5rem 0;
+    overflow: visible; /* Absolutely no clipping on mobile */
+  }
+  .note-embed > a {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    text-decoration: none;
+    border: 1px solid rgba(55, 53, 47, 0.12);
+    border-radius: 12px;
+    user-select: none;
+    background-color: #ffffff;
+    transition:
+      background 120ms ease-in,
+      box-shadow 120ms ease-in;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    overflow: visible; /* Ensure content can push the card height */
+    height: auto;
+  }
+  .note-embed > a:hover {
+    background-color: #fafafa;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  .note-embed-content {
+    display: flex;
+    flex-direction: column; /* Stack vertically on mobile */
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .note-embed-left {
+    padding: 24px 16px 36px; /* Plenty of padding below the button */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center everything on mobile for balanced margins */
+    justify-content: center;
+    text-align: center;
+    color: var(--fg);
+    overflow: visible;
+    order: 2; /* Content below image */
+  }
+  .note-embed-title {
+    font-size: 1.05rem;
+    line-height: 1.4;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 12px;
+    word-break: break-word;
+    /* No line clamp on mobile to show full title */
+  }
+  .note-embed-url {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .note-embed-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #232323;
+    color: #ffffff;
+    padding: 14px 24px;
+    border-radius: 100px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-align: center;
+    width: fit-content;
+    min-width: 220px;
+    max-width: 100%;
+    transition: background-color 0.2s;
+  }
+  .note-embed > a:hover .note-embed-button {
+    background-color: #444;
+  }
+  .note-embed-right {
+    width: 100%;
+    aspect-ratio: 1.91 / 1; /* Standard note image ratio */
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-bottom: 1px solid rgba(55, 53, 47, 0.08); /* Clearer separator */
+    overflow: hidden;
+    order: 1; /* Image on top */
+  }
+  .note-embed-right img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* --- Desktop Styles (screens wider than 640px) --- */
+  @media (min-width: 641px) {
+    .note-embed {
+      display: flex;
+      overflow: hidden; /* PC look can be more restricted */
+    }
+    .note-embed > a {
+      display: flex;
+      overflow: hidden;
+    }
+    .note-embed-content {
+      flex-direction: row; /* Side-by-side on PC */
+      min-height: 180px;
+      max-height: 280px; /* PC height limit is fine because space is wider */
+      overflow: hidden;
+    }
+    .note-embed-left {
+      flex: 1 1 0;
+      min-width: 0;
+      padding: 24px;
+      align-items: flex-start; /* Revert to left align on PC */
+      text-align: left;
+      order: 1; /* Content on left */
+      overflow: hidden;
+    }
+    .note-embed-title {
+      font-size: 1.1rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .note-embed-url {
+      margin-bottom: 20px;
+    }
+    .note-embed-button {
+      padding: 10px 24px;
+      font-size: 0.9rem;
+      min-width: 220px;
+    }
+    .note-embed-right {
+      flex: 0 0 420px; /* Keep your requested wide image area on PC */
+      width: 420px;
+      aspect-ratio: auto;
+      border-bottom: none;
+      border-left: 1px solid rgba(55, 53, 47, 0.06);
+      order: 2; /* Image on right */
+    }
+  }
+</style>

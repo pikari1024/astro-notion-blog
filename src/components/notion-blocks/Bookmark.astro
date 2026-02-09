@@ -3,9 +3,10 @@ import createMetascraper from 'metascraper'
 import metascraperDescription from 'metascraper-description'
 import metascraperImage from 'metascraper-image'
 import metascraperTitle from 'metascraper-title'
-import { isAmazonURL } from '../../lib/blog-helpers.ts'
+import { isAmazonURL, isNoteURL } from '../../lib/blog-helpers.ts'
 import * as interfaces from '../../lib/interfaces.ts'
 import AmazonEmbed from './AmazonEmbed.astro'
+import NoteEmbed from './NoteEmbed.astro'
 
 export interface Props {
   block: interfaces.Block
@@ -40,6 +41,8 @@ try {
     <>
       {isAmazonURL(url) ? (
         <AmazonEmbed url={url} metadata={metadata} />
+      ) : isNoteURL(url) ? (
+        <NoteEmbed url={url} metadata={metadata} />
       ) : (
         <div class="bookmark">
           <a href={url.toString()} target="_blank" rel="noopener noreferrer">

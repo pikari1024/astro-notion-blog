@@ -258,6 +258,10 @@ export const isAmazonURL = (url: URL): boolean => {
   return isShortAmazonURL(url) || isFullAmazonURL(url)
 }
 
+export const isNoteURL = (url: URL): boolean => {
+  return url.hostname === 'note.com' || url.hostname === 'www.note.com'
+}
+
 export const getAmazonAsin = (url: URL): string | null => {
   if (!isAmazonURL(url)) return null
 
