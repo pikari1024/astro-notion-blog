@@ -191,6 +191,32 @@ if (database.Icon && database.Icon.Type === 'file') {
     padding: 0.2em 0.4em;
   }
 
+  /* PC表示向けの基本サイズ調整 */
+  .content ul {
+    font-size: 1.1rem !important;
+  }
+  .content ol {
+    font-size: 1.08rem !important;
+  }
+  .content ul ul,
+  .content ol ul,
+  .content ul ol,
+  .content ol ol {
+    font-size: 1.03rem !important;
+  }
+  .content blockquote {
+    font-size: 1.08rem !important;
+  }
+  .content .to-do {
+    font-size: 1.1rem !important;
+  }
+  .content .table table {
+    font-size: 1.08rem !important;
+  }
+  .content .callout {
+    font-size: 1.08rem !important;
+  }
+
   @media (max-width: 430px) {
     .content ul {
       font-size: 0.95rem !important;
