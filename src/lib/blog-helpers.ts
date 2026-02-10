@@ -262,6 +262,10 @@ export const isNoteURL = (url: URL): boolean => {
   return url.hostname === 'note.com' || url.hostname === 'www.note.com'
 }
 
+export const isInternalURL = (url: URL): boolean => {
+  return url.hostname === 'biliotech.com' || url.hostname === 'www.biliotech.com'
+}
+
 export const getAmazonAsin = (url: URL): string | null => {
   if (!isAmazonURL(url)) return null
 

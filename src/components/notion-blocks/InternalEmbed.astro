@@ -1,0 +1,166 @@
+---
+export interface Props {
+  url: URL
+  metadata?: Record<string, string>
+}
+
+const { url, metadata } = Astro.props
+
+const title = metadata?.title || '記事を読む'
+const image = metadata?.image || ''
+---
+
+<div class="internal-embed">
+  <a href={url.toString()} target="_blank" rel="noopener noreferrer">
+    <div class="internal-embed-content">
+      <div class="internal-embed-left">
+        <div class="internal-embed-title">{title}</div>
+        <div class="internal-embed-url">{url.hostname}</div>
+        <div class="internal-embed-button">記事を読む</div>
+      </div>
+      {
+        image && (
+          <div class="internal-embed-right">
+            <img src={image} alt={title} loading="lazy" />
+          </div>
+        )
+      }
+    </div>
+  </a>
+</div>
+
+<style>
+  /* --- Base Styles (Mobile First) --- */
+  .internal-embed {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    font-size: 0.9rem;
+    margin: 1.5rem 0;
+    overflow: visible;
+  }
+  .internal-embed > a {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    text-decoration: none;
+    border: 1px solid rgba(55, 53, 47, 0.12);
+    border-radius: 12px;
+    user-select: none;
+    background-color: #ffffff;
+    transition: background 120ms ease-in, box-shadow 120ms ease-in;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    overflow: visible;
+    height: auto;
+  }
+  .internal-embed > a:hover {
+    background-color: #fafafa;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  .internal-embed-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .internal-embed-left {
+    padding: 20px 16px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--fg);
+    overflow: visible;
+    order: 2;
+  }
+  .internal-embed-title {
+    font-size: 1.05rem;
+    line-height: 1.4;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 8px;
+    word-break: break-word;
+  }
+  .internal-embed-url {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .internal-embed-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    color: #ffffff;
+    padding: 12px 24px;
+    border-radius: 100px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-align: center;
+    width: fit-content;
+    min-width: 200px;
+    max-width: 100%;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .internal-embed > a:hover .internal-embed-button {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  .internal-embed-right {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-bottom: 1px solid rgba(55, 53, 47, 0.08);
+    overflow: hidden;
+    order: 1;
+  }
+  .internal-embed-right img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* --- Desktop Styles --- */
+  @media (min-width: 641px) {
+    .internal-embed-content {
+      flex-direction: row;
+      min-height: 180px;
+    }
+    .internal-embed-left {
+      flex: 1 1 0;
+      padding: 24px;
+      align-items: flex-start;
+      text-align: left;
+      order: 1;
+    }
+    .internal-embed-title {
+      font-size: 1.15rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .internal-embed-url {
+      margin-bottom: 20px;
+    }
+    .internal-embed-right {
+      flex: 0 0 320px;
+      width: 320px;
+      aspect-ratio: auto;
+      border-bottom: none;
+      border-left: 1px solid rgba(55, 53, 47, 0.06);
+      order: 2;
+    }
+  }
+</style>
