@@ -64,7 +64,7 @@ const client = new Client({
 let postsCache: Post[] | null = null
 let dbCache: Database | null = null
 
-const numberOfRetry = 2
+const numberOfRetry = 6
 
 export async function getAllPosts(): Promise<Post[]> {
   if (postsCache !== null) {
@@ -108,7 +108,7 @@ export async function getAllPosts(): Promise<Post[]> {
           )) as responses.QueryDatabaseResponse
         } catch (error: unknown) {
           if (error instanceof APIResponseError) {
-            if (error.status && error.status >= 400 && error.status < 500) {
+            if (error.status && error.status >= 400 && error.status < 500 && error.status !== 429) {
               bail(error)
             }
           }
@@ -250,7 +250,7 @@ export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
             )) as responses.RetrieveBlockChildrenResponse
           } catch (error: unknown) {
             if (error instanceof APIResponseError) {
-              if (error.status && error.status >= 400 && error.status < 500) {
+              if (error.status && error.status >= 400 && error.status < 500 && error.status !== 429) {
                 bail(error)
               }
             }
@@ -361,7 +361,7 @@ export async function getBlock(blockId: string): Promise<Block> {
         )) as responses.RetrieveBlockResponse
       } catch (error: unknown) {
         if (error instanceof APIResponseError) {
-          if (error.status && error.status >= 400 && error.status < 500) {
+          if (error.status && error.status >= 400 && error.status < 500 && error.status !== 429) {
             bail(error)
           }
         }
@@ -455,7 +455,7 @@ export async function getDatabase(): Promise<Database> {
         )) as responses.RetrieveDatabaseResponse
       } catch (error: unknown) {
         if (error instanceof APIResponseError) {
-          if (error.status && error.status >= 400 && error.status < 500) {
+          if (error.status && error.status >= 400 && error.status < 500 && error.status !== 429) {
             bail(error)
           }
         }
@@ -811,7 +811,7 @@ async function _getTableRows(blockId: string): Promise<TableRow[]> {
             )) as responses.RetrieveBlockChildrenResponse
           } catch (error: unknown) {
             if (error instanceof APIResponseError) {
-              if (error.status && error.status >= 400 && error.status < 500) {
+              if (error.status && error.status >= 400 && error.status < 500 && error.status !== 429) {
                 bail(error)
               }
             }
@@ -877,7 +877,7 @@ async function _getColumns(blockId: string): Promise<Column[]> {
             )) as responses.RetrieveBlockChildrenResponse
           } catch (error: unknown) {
             if (error instanceof APIResponseError) {
-              if (error.status && error.status >= 400 && error.status < 500) {
+              if (error.status && error.status >= 400 && error.status < 500 && error.status !== 429) {
                 bail(error)
               }
             }

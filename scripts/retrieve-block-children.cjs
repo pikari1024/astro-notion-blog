@@ -7,10 +7,17 @@ const notion = new Client({ auth: process.env.NOTION_API_SECRET });
 const requestDuration = 300;
 
 const retry = (maxRetries, fn) => {
-  return fn().catch(function (err) {
+  return fn().catch(async function (err) {
     if (maxRetries <= 0) {
       throw err;
     }
+    // Notion API rate limit (429): wait before retrying
+    let waitMs = 1000;
+    if (err && err.status === 429) {
+      const retryAfter = Number(err.headers && typeof err.headers.get === 'function' ? err.headers.get('retry-after') : NaN);
+      waitMs = Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter * 1000 : 30000;
+    }
+    await setTimeout(waitMs);
     return retry(maxRetries - 1, fn);
   });
 };

@@ -84,7 +84,7 @@ const getAllPages = async () => {
   }
 
   const CACHE_VERSION = 1;
-  const concurrency = parseInt(process.env.CACHE_CONCURRENCY || '10', 10);
+  const concurrency = parseInt(process.env.CACHE_CONCURRENCY || '2', 10);
 
   let processedCount = 0;
   let skippedCount = 0;
@@ -108,7 +108,7 @@ const getAllPages = async () => {
         }
 
         const command = `NX_BRANCH=main npx nx run astro-notion-blog:_fetch-notion-blocks ${page.id} ${page.last_edited_time}`;
-        const options = { timeout: 60000 };
+        const options = { timeout: 300000 };
 
         exec(command, options, (err, stdout, stderr) => {
           processedCount++;
