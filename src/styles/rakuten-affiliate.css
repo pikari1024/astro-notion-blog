@@ -1,167 +1,54 @@
-/* 楽天アフィリエイト（楽天標準 picttext リンク）カードのレスポンシブ対応
-   Notion のコードブロック/段落から生HTMLで出力される .rakuten-affiliate 内のインラインstyleを上書きする */
+/* 楽天アフィリエイトリンクの外枠（ラッパー）のみのスタイル
+   楽天の規約により、生成されたリンクHTML（内部の table/div/a/img 等）は一切加工・上書きしない。
+   ここでは自前の .rakuten-affiliate 要素とその疑似要素だけを装飾する。 */
 .rakuten-affiliate {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
   width: 100%;
   max-width: 100%;
-  margin: 1.25rem 0;
-  overflow: hidden;
-  box-sizing: border-box;
+  margin: 1.5rem 0;
+  padding: 32px 16px 20px;
+  overflow-x: auto;
+  background: #f7f7f8;
+  border: 1px solid #e6e7ea;
+  border-radius: 16px;
+  color: #222;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.rakuten-affiliate *,
-.rakuten-affiliate *::before,
-.rakuten-affiliate *::after {
-  box-sizing: border-box;
+.rakuten-affiliate:hover {
+  border-color: #d5d8dc;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
-.rakuten-affiliate img {
-  max-width: 100% !important;
-  height: auto !important;
-}
-.rakuten-affiliate table,
-.rakuten-affiliate tbody,
-.rakuten-affiliate tr,
-.rakuten-affiliate td {
-  display: block !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0;
-}
-/* 余白を生む空の <br> / <p> を除去 */
-.rakuten-affiliate td > br,
-.rakuten-affiliate td > p:empty,
-.rakuten-affiliate > br,
-.rakuten-affiliate > p:empty {
-  display: none !important;
-}
-/* カード本体 */
-.rakuten-affiliate td > div[style*='border'] {
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  padding: 16px !important;
-  border-radius: 12px !important;
-  text-align: left !important;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-}
-.rakuten-affiliate td > div[style*='border'] tr {
-  display: flex !important;
-  align-items: center;
-  gap: 20px;
-}
-/* 画像セル */
-.rakuten-affiliate td > div[style*='border'] td:first-child {
-  flex: 0 0 240px;
-  width: 240px !important;
-  text-align: center !important;
-}
-.rakuten-affiliate td > div[style*='border'] td:first-child img {
-  margin: 0 auto !important;
-  display: block;
-}
-/* テキストセル */
-.rakuten-affiliate td > div[style*='border'] td + td {
-  flex: 1 1 auto;
-  min-width: 0;
-  width: auto !important;
-}
-.rakuten-affiliate td > div[style*='border'] td + td p {
-  font-size: 16px !important;
-  line-height: 1.6 !important;
-  margin: 0 0 16px !important;
-  text-align: left !important;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-}
-.rakuten-affiliate td > div[style*='border'] td + td p a {
-  color: #1a0dab;
-  text-decoration: none;
+/* 広告表記（ステマ規制対応）: リンクの外側、上部の余白に表示 */
+.rakuten-affiliate::before {
+  content: 'PR';
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  padding: 0 6px;
+  border: 1px solid #d5d8dc;
+  border-radius: 4px;
+  background: #fff;
+  color: #555;
+  font-size: 11px;
   font-weight: 600;
-}
-.rakuten-affiliate td > div[style*='border'] td + td p a:hover {
-  text-decoration: underline;
-}
-/* ボタン行 */
-.rakuten-affiliate td > div[style*='border'] td + td > div {
-  display: flex !important;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  gap: 12px 20px;
-  margin: 0 !important;
-}
-.rakuten-affiliate td > div[style*='border'] td + td > div::after {
-  content: '';
-  display: block;
-  clear: both;
-}
-.rakuten-affiliate td > div[style*='border'] td + td > div > a {
-  display: flex;
-  align-items: center;
-}
-.rakuten-affiliate td > div[style*='border'] td + td > div img {
-  float: none !important;
-  max-height: 27px !important;
-  width: auto !important;
-}
-.rakuten-affiliate div[style*='#bf0000'] {
-  float: none !important;
-  width: auto !important;
-  min-width: 160px;
-  height: 40px !important;
-  line-height: 40px !important;
-  padding: 0 24px !important;
-  margin: 0 !important;
-  border-radius: 20px !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  white-space: nowrap;
-}
-.rakuten-affiliate a:has(> div[style*='#bf0000']) {
-  text-decoration: none !important;
-}
-.rakuten-affiliate div[style*='#bf0000']:hover {
-  opacity: 0.88;
+  line-height: 16px;
+  letter-spacing: 0.06em;
+  pointer-events: none;
 }
 
 @media (max-width: 639px) {
-  .rakuten-affiliate td > div[style*='border'] {
-    padding: 14px !important;
+  .rakuten-affiliate {
+    padding: 30px 8px 14px;
+    border-radius: 14px;
   }
-  .rakuten-affiliate td > div[style*='border'] tr {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-  .rakuten-affiliate td > div[style*='border'] td:first-child {
-    flex: none;
-    width: 100% !important;
-  }
-  .rakuten-affiliate td > div[style*='border'] td:first-child img {
-    width: auto !important;
-    max-width: min(70%, 240px) !important;
-  }
-  .rakuten-affiliate td > div[style*='border'] td + td {
-    width: 100% !important;
-  }
-  .rakuten-affiliate td > div[style*='border'] td + td p {
-    font-size: 15px !important;
-    text-align: center !important;
-    margin-bottom: 12px !important;
-  }
-  .rakuten-affiliate td > div[style*='border'] td + td > div {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-  }
-  .rakuten-affiliate td > div[style*='border'] td + td > div > a {
-    justify-content: center;
-  }
-  .rakuten-affiliate div[style*='#bf0000'] {
-    width: 100% !important;
-    min-width: 0;
-    height: 44px !important;
-    line-height: 44px !important;
-    font-size: 15px !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rakuten-affiliate {
+    transition: none;
   }
 }

@@ -15,7 +15,8 @@ const { block, headings } = Astro.props
 
 const textContent = block.Paragraph.RichTexts.map(t => t.PlainText).join('')
 const isRakutenAffiliate = (textContent.includes('<script') && /rakuten_/i.test(textContent)) || 
-                           (textContent.trim().startsWith('<a') && textContent.includes('rakuten.co.jp'))
+                           (textContent.trim().startsWith('<a') && textContent.includes('rakuten.co.jp')) ||
+                           (textContent.trim().startsWith('<') && textContent.includes('hb.afl.rakuten.co.jp'))
 ---
 
 {

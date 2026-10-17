@@ -34,7 +34,7 @@ const grammar =
 const highlightedCode = Prism.highlight(code, grammar, language)
 const lines = highlightedCode.split('\n')
 
-const isRakutenAffiliate = /rakuten_/i.test(code)
+const isRakutenAffiliate = /rakuten_/i.test(code) || code.includes('hb.afl.rakuten.co.jp')
 ---
 
 {
