@@ -64,9 +64,13 @@ const shouldUseLightbox = ENABLE_LIGHTBOX && !imageLink
     max-width: 100%;
   }
 
-  .image img:hover {
-  cursor: url('../images/magnifying_glass.svg'), zoom-in;
-}
+  .image a[data-fslightbox] img:hover {
+    cursor: url('../images/magnifying_glass.svg'), zoom-in;
+  }
+
+  .image a:not([data-fslightbox]) img:hover {
+    cursor: pointer;
+  }
 
 
   .image > div {
