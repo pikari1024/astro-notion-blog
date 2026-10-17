@@ -12,11 +12,25 @@
   margin: 1.5rem 0;
   padding: 32px 16px 20px;
   overflow-x: auto;
-  background: #f7f7f8;
+  background-color: #f7f7f8;
   border: 1px solid #e6e7ea;
   border-radius: 16px;
   color: #222;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  /* 背景色だけをごく控えめにゆっくり変化させ、弱く注意を引く（サイズ・中身には影響しない） */
+  animation: rakuten-affiliate-bg 12s ease-in-out infinite;
+}
+@keyframes rakuten-affiliate-bg {
+  0%,
+  100% {
+    background-color: #f7f7f8;
+  }
+  33% {
+    background-color: #fdf6f0;
+  }
+  66% {
+    background-color: #f2f6fb;
+  }
 }
 .rakuten-affiliate:hover {
   border-color: #d5d8dc;
@@ -49,6 +63,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .rakuten-affiliate {
+    animation: none;
     transition: none;
   }
 }
