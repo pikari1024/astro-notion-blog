@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "include": [
+    "/posts/member-book-intro-policy",
+    "/posts/member-book-intro-policy/*",
+    "/posts/kindle-publish-checklist",
+    "/posts/kindle-publish-checklist/*",
+    "/posts/blog-x-kindle-instagram-role-map",
+    "/posts/blog-x-kindle-instagram-role-map/*",
+    "/posts/notion20260924",
+    "/posts/notion20260924/*"
+  ],
+  "exclude": []
+}
