@@ -84,7 +84,7 @@ export async function getAllPosts(): Promise<Post[]> {
         {
           property: 'Date',
           date: {
-            on_or_before: new Date().toISOString(),
+            on_or_before: new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' }), // JST date (YYYY-MM-DD)
           },
         },
       ],
