@@ -257,7 +257,9 @@ if (database.Icon && database.Icon.Type === 'file') {
   align-items: center;
   color: white;
   border-radius: 10px;
-  /* 高さはJavaScriptで動的に設定 */
+  /* 高さはCSSで指定（幅÷(1360/200)、50〜200pxの範囲）。JS待ちで遅れて表示されるのを防ぐ */
+  height: clamp(50px, calc(100vw * 200 / 1360), 200px);
+  background-size: contain;
 }
 
 @media (max-width: 430px) {
@@ -265,7 +267,8 @@ if (database.Icon && database.Icon.Type === 'file') {
     
     background-image: url('../images/headerImage_mini.png'); /* 430px以下の場合の画像 */
     background-position: left center; /* 左端を基準に */
-    background-size: contain; /* 変更 */
+    height: 150px; /* 430px以下は150px固定 */
+    background-size: cover;
     object-fit: contain; /* 変更 */
   }
 }
@@ -437,32 +440,6 @@ footer {
 </style>
 
 <script is:inline>
-  function adjustHeaderHeight() {
-    const header = document.querySelector('.header');
-    if (!header) return;
-
-    const windowWidth = window.innerWidth;
-    const aspectRatio = 1360 / 200;
-    const maxHeight = 200;
-    const minHeight = 50;
-
-    // 430px以上の時のみJavaScriptで計算
-    if (windowWidth > 430) {
-      let headerHeight = Math.min(maxHeight, windowWidth / aspectRatio);
-      headerHeight = Math.max(minHeight, headerHeight);
-      header.style.height = headerHeight + 'px';
-      header.style.backgroundSize = 'contain';
-    } else {
-      // 430px以下の場合は200pxに固定
-      header.style.height = '150px';
-      header.style.backgroundSize = 'cover';
-    }
-  }
-
-  window.addEventListener('resize', adjustHeaderHeight);
-  // 初期表示時にも実行
-  adjustHeaderHeight();
-
   // Scroll to Top logic
   const scrollToTopBtn = document.getElementById('scroll-to-top-btn');
   if (scrollToTopBtn) {
