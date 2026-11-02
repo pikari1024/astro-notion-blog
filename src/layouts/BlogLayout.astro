@@ -11,7 +11,6 @@ import BlogTagsLink from '../components/BlogTagsLink.astro'
 import styles from '../styles/blog.module.css'
 
 const {
-    title,
     path,
     posts,
     rankedPosts,
@@ -23,7 +22,7 @@ const {
 } = Astro.props
 ---
 
-<Layout title={title} path={path}>
+<Layout path={path}>
     <div slot="main" class={styles.main}>
         <slot name="header" />
 
